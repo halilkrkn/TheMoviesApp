@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">TheMoviesApp</string>
+    <string name="web_client_id">86306428173-lgm0o523ckqs50ibk2neq00fmlsejs5e.apps.googleusercontent.com</string>
+    <string name="clear">Clear\n</string>
+    <string name="email">1</string>
+    <string name="email_icon">2</string>
+    <string name="invalid_email_address">3</string>
+    <string name="password">4</string>
+    <string name="password_icon">5</string>
+    <string name="invalid_password">6</string>
 </resources>
