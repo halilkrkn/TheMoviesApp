@@ -135,13 +135,13 @@ fun SignUpScreen(
                 onClick = {
                     scope.launch {
                         keyboard?.hide()
-                        navController.popBackStack()
                         if (email.isEmpty() || password.isEmpty()) {
                             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_LONG)
                                 .show()
                             return@launch
                         }
                         viewModel.signUpWithEmailAndPassword(email, password)
+                        navController.popBackStack()
                         navController.navigate(MAIN)
                     }
                 },
@@ -162,6 +162,7 @@ fun SignUpScreen(
                 modifier = Modifier
                     .padding(15.dp)
                     .clickable {
+                        navController.popBackStack()
                         navController.navigate(AuthScreens.SignIn.route)
                     },
                 text = "Already Have an account? sign In",
