@@ -1,32 +1,34 @@
 package com.halilkrkn.themoviesapp.navigation.graphs
 
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.halilkrkn.themoviesapp.navigation.screens.AuthScreens
 import com.halilkrkn.themoviesapp.navigation.util.Graphs
-import com.halilkrkn.themoviesapp.presentation.auth.login.LoginScreen
-import com.halilkrkn.themoviesapp.presentation.auth.register.RegisterScreen
+import com.halilkrkn.themoviesapp.presentation.auth.signin.SignInScreen
+import com.halilkrkn.themoviesapp.presentation.auth.signup.SignUpScreen
 
+@OptIn(ExperimentalComposeUiApi::class)
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
 ) {
     navigation(
-        startDestination = AuthScreens.Login.route,
+        startDestination = AuthScreens.SignIn.route,
         route = Graphs.AUTHENTICATION
     ) {
 
         composable(
-            route = AuthScreens.Login.route
+            route = AuthScreens.SignIn.route
         ) {
-            LoginScreen(navController = navController)
+            SignInScreen(navController = navController)
         }
 
         composable(
-            route = AuthScreens.Register.route
+            route = AuthScreens.SignUp.route
         ) {
-            RegisterScreen(navController = navController)
+            SignUpScreen(navController = navController)
         }
     }
 }
