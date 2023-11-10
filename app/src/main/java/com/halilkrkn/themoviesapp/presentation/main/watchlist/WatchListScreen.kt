@@ -1,6 +1,7 @@
 package com.halilkrkn.themoviesapp.presentation.main.watchlist
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,20 +38,33 @@ import coil.compose.AsyncImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.halilkrkn.themoviesapp.core.Constants.TAG
+import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
+import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesInstance
+import com.halilkrkn.themoviesapp.di.AppModule
 import com.halilkrkn.themoviesapp.navigation.util.Graphs
 import com.halilkrkn.themoviesapp.presentation.main.components.SignOutPopup
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
 @Composable
-fun WatchListScreen(navController: NavController) {
+fun WatchListScreen(
+    navController: NavController,
+) {
 
     var isProfilePopupVisible by remember { mutableStateOf(false) }
     val firebaseAuth: FirebaseAuth = Firebase.auth
     val firebaseUser = firebaseAuth.currentUser
+    val scoper = rememberCoroutineScope()
 
-
+    // TODO: 10.10.2021  Bu kısım silinecek
+//    val serviceApi = AppModule.provideTheMoviesApi(AppModule.provideRetrofit(AppModule.provideHttpClient()))
     Scaffold(
         topBar = {
             Column(
@@ -96,33 +111,6 @@ fun WatchListScreen(navController: NavController) {
                         .fillMaxWidth()
                         .height(56.dp)
                 )
-
-                /*        Spacer(modifier = Modifier.height(16.dp))
-
-                        TextField(
-                            value = searchText,
-                            onValueChange = {
-                                searchText = it
-                                // Arama işlemi burada yapılabilir
-                            },
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Text
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = {
-                                    keyboardController?.hide()
-                                    // Arama işlemi burada yapılabilir
-                                }
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            singleLine = true,
-                            placeholder = {
-                                Text(text = "Ara...")
-                            }
-                        )*/
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Kullanıcı profili popup'ı
@@ -144,9 +132,14 @@ fun WatchListScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "HOME SECREEN"
-            )
+
+            // TODO: 10.10.2021  Bu kısım silinecek
+//            GlobalScope.launch(Dispatchers.Main) {
+//                    val photos = serviceApi.getPopularMovies(1, 123)
+//                    Log.d(TAG, "The Movies: ${photos.theMoviesDtos.map {
+//                        it.originalTitle
+//                    }}")
+//            }
         }
     }
 }

@@ -1,6 +1,18 @@
 package com.halilkrkn.themoviesapp.core
 
+import com.halilkrkn.themoviesapp.BuildConfig
+
 object Constants {
+
+    // Api
+    const val BASE_URL = "https://api.themoviedb.org/3/"
+    const val API_KEY = BuildConfig.API_KEY
+
+
+    // Database
+    const val DATABASE_NAME = "the_movies_db"
+    const val UNSPLASH_STARTING_PAGE_INDEX = 1
+
     //App
     const val TAG = "AppTag"
 
