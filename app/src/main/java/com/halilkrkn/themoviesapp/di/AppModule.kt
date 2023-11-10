@@ -2,10 +2,13 @@ package com.halilkrkn.themoviesapp.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.halilkrkn.themoviesapp.core.Constants.BASE_URL
 import com.halilkrkn.themoviesapp.data.local.TheMoviesDatabase
 import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
+import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
+import com.halilkrkn.themoviesapp.data.repository.TheMoviesRepositoryImpl
+import com.halilkrkn.themoviesapp.domain.usecase.GetAllTheMoviesUseCase
+import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,6 +63,19 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideTheMoviesDao(db: TheMoviesDatabase) = db.theMoviesDao()
+    fun provideTheMoviesRepository(
+        api: TheMoviesApi,
+        db: TheMoviesDatabase
+    ): TheMoviesRepository {
+        return TheMoviesRepositoryImpl(api, db)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTheMoviesUseCases(repository: TheMoviesRepository): TheMoviesUseCases {
+        return TheMoviesUseCases(
+            getAllTheMoviesUseCase = GetAllTheMoviesUseCase(repository)
+        )
+    }
 
 }
