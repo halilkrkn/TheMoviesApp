@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "86306428173",
+    "project_id": "themoviesapp-5c45e",
+    "storage_bucket": "themoviesapp-5c45e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:86306428173:android:6cc44f9dfff37261ab8c44",
+        "android_client_info": {
+          "package_name": "com.halilkrkn.themoviesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "86306428173-lcvmbe6gb191pv6ah97l78tl74o4rnlo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.halilkrkn.themoviesapp",
+            "certificate_hash": "b9d4c5c993eceda8e815c5d37ea77f72d482a385"
+          }
+        },
+        {
+          "client_id": "86306428173-lgm0o523ckqs50ibk2neq00fmlsejs5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCD7YlAVywRloiblWgZI8Yd55-xv7XW5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "86306428173-lgm0o523ckqs50ibk2neq00fmlsejs5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

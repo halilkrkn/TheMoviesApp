@@ -13,8 +13,9 @@ fun SetupNavGraph(
     NavHost(
         navController = navController,
         route = Graphs.ROOT,
-        startDestination = Graphs.AUTHENTICATION
+        startDestination = Graphs.SPLASH
     ) {
+        splashNavGraph(navController = navController)
         authNavGraph(navController = navController)
         homeNavGraph(navController = navController)
     }
