@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
@@ -77,11 +77,11 @@ fun DetailScreenItemPoster(theMovies: TheMovies, modifier: Modifier) {
                 .height(200.dp)
         ) {
             AsyncImage(
-                model = IMAGE_BASE_URL + theMovies.posterPath,
+                model = IMAGE_BASE_URL + theMovies.backdropPath,
                 contentDescription = theMovies.title,
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.FillBounds,
                 modifier = modifier
-                    .requiredHeight(300.dp)
+                    .fillMaxHeight()
             )
             Box(
                 modifier = Modifier
@@ -137,7 +137,8 @@ fun DetailScreenItemOverview(theMovies: TheMovies) {
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
-                    color = White
+                    color = White,
+                    textDirection = TextDirection.Rtl
                 )
             )
             Spacer(modifier = Modifier.width(5.dp))
@@ -160,14 +161,6 @@ fun DetailScreenInformation(
             .fillMaxWidth()
             .padding(12.dp)
     ) {
-        Text(
-            text = theMovies.title,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                color = Black
-            )
-        )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = theMovies.overview,

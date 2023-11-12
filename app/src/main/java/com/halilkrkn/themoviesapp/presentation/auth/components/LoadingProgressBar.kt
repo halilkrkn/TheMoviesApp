@@ -26,7 +26,7 @@ fun LoadingProgressBar(
         LottieAnimation(
             composition,
             iterations = LottieConstants.IterateForever,
-            speed = 2f,
+            speed = 1f,
             alignment = Alignment.Center,
         )
     }

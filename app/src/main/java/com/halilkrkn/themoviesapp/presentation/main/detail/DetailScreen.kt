@@ -52,6 +52,8 @@ import com.halilkrkn.themoviesapp.core.Constants.TAG
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 import com.halilkrkn.themoviesapp.presentation.main.detail.components.DetailScreenItem
+import com.halilkrkn.themoviesapp.ui.theme.Pink40
+import com.halilkrkn.themoviesapp.ui.theme.PurpleGrey80
 import com.halilkrkn.themoviesapp.ui.theme.moreLightBlue
 import com.halilkrkn.themoviesapp.ui.theme.StarColor
 
@@ -60,22 +62,22 @@ import com.halilkrkn.themoviesapp.ui.theme.StarColor
 @Composable
 fun DetailScreen(
     navController: NavController,
-    movieId : Int?,
+    movieId: Int?,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         if (movieId != null) {
             viewModel.onRefresh(movieId)
         }
     }
 
     Scaffold(
-        floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
             state.theMoviesDetail?.let {
                 FloatingActionButton(
+                    backgroundColor = PurpleGrey80,
                     onClick = {
                         Log.d(TAG, "DetailScreen: ${it.id}")
                         Toast.makeText(
@@ -93,7 +95,7 @@ fun DetailScreen(
                     Icon(
                         imageVector = Icons.Outlined.FavoriteBorder,
                         contentDescription = "Add to WatchList",
-                        tint = moreLightBlue
+                        tint = Color.Black
                     )
                 }
             }
@@ -102,15 +104,16 @@ fun DetailScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        state.theMoviesDetail?.let {
+                    state.theMoviesDetail?.let { theMovies ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
                             Text(
-                                text = "Detaylar",
+                                text = theMovies.title,
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
@@ -167,161 +170,13 @@ fun DetailScreen(
             }
 
             if (state.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LoadingProgressBar(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(48.dp),
-                        raw = R.raw.movie_splash_1
-                    )
-                }
-            }
-        }
-    }
-}
-
-/*
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DetailScreenItem(
-    theMovies: TheMovies,
-) {
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
-        DetailScreenItemPoster(
-            theMovies = theMovies,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        DetailScreenInformation(
-            theMovies = theMovies,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-fun DetailScreenItemPoster(theMovies: TheMovies, modifier: Modifier) {
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(),
-        elevation = 5.dp,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-        ) {
-            AsyncImage(
-                model = Constants.IMAGE_BASE_URL + theMovies.posterPath,
-                contentDescription = theMovies.title,
-                contentScale = ContentScale.Fit,
-                modifier = modifier
-                    .requiredHeight(300.dp)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black
-                            ),
-                            startY = 400f
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp),
-                contentAlignment = Alignment.BottomStart
-            ) {
-                DetailScreenItemOverview(
-                    theMovies = theMovies
+                LoadingProgressBar(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(48.dp),
+                    raw = R.raw.movie_splash_1
                 )
             }
         }
     }
 }
-
-@Composable
-fun DetailScreenItemOverview(theMovies: TheMovies) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Filled.Star,
-                contentDescription = "Release Date",
-                tint = StarColor
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = theMovies.voteAverage.toString(),
-                color = Color.White
-            )
-        }
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = theMovies.releaseDate,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    color = Color.White
-                )
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Icon(
-                imageVector = Icons.Filled.DateRange,
-                contentDescription = "Release Date",
-                tint = moreLightBlue
-            )
-        }
-    }
-}
-
-@Composable
-fun DetailScreenInformation(
-    theMovies: TheMovies,
-    modifier: Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(12.dp)
-    ) {
-        Text(
-            text = theMovies.title,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                color = Color.Black
-            )
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = theMovies.overview,
-            style = TextStyle(
-                fontWeight = FontWeight.Normal,
-                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                color = Color.Black,
-                textDirection = TextDirection.ContentOrLtr
-            )
-        )
-    }
-}*/
