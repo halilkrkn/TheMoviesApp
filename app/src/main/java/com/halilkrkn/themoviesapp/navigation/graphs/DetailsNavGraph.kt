@@ -2,7 +2,9 @@ package com.halilkrkn.themoviesapp.navigation.graphs
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.halilkrkn.themoviesapp.navigation.screens.DetailsScreen
 import com.halilkrkn.themoviesapp.navigation.util.Graphs
@@ -16,9 +18,13 @@ fun NavGraphBuilder.detailsNavGraph(
         route = Graphs.DETAILS
     ) {
         composable(
-            route = DetailsScreen.Detail.route
-        ) {
-            DetailScreen(navController = navController)
+            route = DetailsScreen.Detail.route + "/{movieId}",arguments = listOf(navArgument("movieId") {
+                defaultValue = -1
+                type = NavType.IntType },
+            )) {navBackStackEntry ->  DetailScreen(navController = navController, movieId = navBackStackEntry.arguments?.getInt("movieId"))
         }
+//        ) {
+//            DetailScreen(navController = navController, movieId = it.arguments?.getInt("movieId"))
+//        }
     }
 }
