@@ -7,7 +7,8 @@ import com.halilkrkn.themoviesapp.data.local.model.TheMoviesEntity
 
 @Database(
     entities = [TheMoviesEntity::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class TheMoviesDatabase: RoomDatabase() {
         abstract fun theMoviesDao(): TheMoviesDao

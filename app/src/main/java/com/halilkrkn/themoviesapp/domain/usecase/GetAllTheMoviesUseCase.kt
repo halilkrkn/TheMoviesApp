@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAllTheMoviesUseCase @Inject constructor(
     private val theMoviesRepository: TheMoviesRepository
 ) {
-    operator fun invoke(): Pager<Int, TheMoviesEntity> {
+     operator fun invoke(): Pager<Int, TheMoviesEntity> {
         return theMoviesRepository.getAllTheMovies()
     }
 }

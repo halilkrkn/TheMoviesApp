@@ -1,6 +1,8 @@
 package com.halilkrkn.themoviesapp.presentation.main.watchlist.components
 
+import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,16 +16,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.halilkrkn.themoviesapp.R
+import com.halilkrkn.themoviesapp.core.Constants
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
+import com.halilkrkn.themoviesapp.navigation.screens.DetailsScreen
+import com.halilkrkn.themoviesapp.navigation.util.Graphs.DETAILS
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 
 @Composable
 fun WatchListItemScreen(
     theMovies: LazyPagingItems<TheMovies>,
+    navController: NavController
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = theMovies.loadState) {
@@ -59,7 +66,14 @@ fun WatchListItemScreen(
                     if (theMovies != null) {
                         WatchListItem(
                             theMovies = theMovies,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            onItemClick = {
+                                Log.d(Constants.TAG, "DetailScreen: ${theMovies.id}")
+                                navController.navigate(
+                                    DetailsScreen.Detail.route.plus("/${theMovies.id}")
+//                                     DETAILS.plus("/${theMovies.id}")
+                                )
+                            }
                         )
                     }
                 }

@@ -125,6 +125,7 @@ fun WatchListScreen(
         ) {
             WatchListItemScreen(
                 theMovies = theMovies,
+                navController = navController
             )
         }
     }

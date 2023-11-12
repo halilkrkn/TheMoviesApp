@@ -7,6 +7,7 @@ import com.halilkrkn.themoviesapp.data.local.TheMoviesDatabase
 import com.halilkrkn.themoviesapp.data.local.model.TheMoviesEntity
 import com.halilkrkn.themoviesapp.data.paging.PagingTheMoviesMediator
 import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
+import com.halilkrkn.themoviesapp.data.remote.dto.detail.TheMoviesDetailDto
 import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
 import javax.inject.Inject
 
@@ -29,6 +30,10 @@ class TheMoviesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { theMoviesDatabase.theMoviesDao().getAllTheMovies() }
         )
+    }
+
+    override suspend fun getTheMoviesDetail(id: Int): TheMoviesDetailDto {
+        return theMoviesApi.getTheMoviesDetail(id)
     }
 
 }
