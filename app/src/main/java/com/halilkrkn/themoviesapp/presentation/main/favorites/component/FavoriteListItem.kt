@@ -1,4 +1,4 @@
-package com.halilkrkn.themoviesapp.presentation.main.watchlist.components
+package com.halilkrkn.themoviesapp.presentation.main.favorites.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,22 +14,65 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.halilkrkn.themoviesapp.core.Constants
 import com.halilkrkn.themoviesapp.core.Constants.IMAGE_BASE_URL
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import com.halilkrkn.themoviesapp.ui.theme.TheMoviesAppTheme
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WatchListItem(
+fun FavoriteListItem(
     theMovies: TheMovies,
     modifier: Modifier = Modifier,
-    onItemClick: (TheMovies) -> Unit
+    onItemClick: (TheMovies) -> Unit,
+    deleteClick: () -> Unit,
+) {
+
+    val dismissState = rememberDismissState(
+        confirmValueChange = {
+            if (it == DismissValue.DismissedToStart) {
+                deleteClick()
+            }
+            it != DismissValue.DismissedToEnd
+        },
+        positionalThreshold = { 150.dp.toPx() }
+    )
+
+    SwipeToDismiss(
+        state = dismissState,
+        background = {
+            DismissBackground(
+                dismissState = dismissState
+            )
+        },
+        directions = setOf(DismissDirection.EndToStart),
+        dismissContent = {
+            FavoriteItem(
+                theMovies = theMovies,
+                onItemClick = {
+                    onItemClick(it)
+                },
+            )
+        }
+    )
+}
+
+
+@Composable
+fun FavoriteItem(
+    theMovies: TheMovies,
+    onItemClick: (TheMovies) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier,
@@ -68,14 +111,15 @@ fun WatchListItem(
             }
         }
     }
+
 }
 
 
 @Preview
 @Composable
-fun WatchListItemPreview() {
+fun SearchListItemPreview() {
     TheMoviesAppTheme {
-        WatchListItem(
+        FavoriteListItem(
             theMovies = TheMovies(
                 id = 1,
                 adult = false,
@@ -92,7 +136,8 @@ fun WatchListItemPreview() {
                 voteCount = 0
             ),
             modifier = Modifier.fillMaxWidth(),
-            onItemClick = {}
+            onItemClick = {},
+            deleteClick = {}
         )
     }
 }

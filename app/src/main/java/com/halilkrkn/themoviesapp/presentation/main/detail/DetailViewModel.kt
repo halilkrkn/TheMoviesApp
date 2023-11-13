@@ -2,18 +2,16 @@ package com.halilkrkn.themoviesapp.presentation.main.detail
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.halilkrkn.themoviesapp.core.Constants.MOVIE_ID
 import com.halilkrkn.themoviesapp.core.Resource
-import com.halilkrkn.themoviesapp.data.mappers.toTheMovies
+import com.halilkrkn.themoviesapp.data.mappers.toTheMoviesFavoriteEntity
+import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,13 +21,13 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val theMoviesUseCases: TheMoviesUseCases,
-): ViewModel() {
+) : ViewModel() {
 
     private val _state = mutableStateOf<TheMoviesDetailState>(TheMoviesDetailState())
     val state: State<TheMoviesDetailState> = _state
 
     private val _isLoading = MutableStateFlow(false)
-    val isLoading =  _isLoading.asStateFlow()
+    val isLoading = _isLoading.asStateFlow()
 
     fun onRefresh(movieId: Int) {
         getTheMoviesDetail(movieId)
@@ -41,19 +39,21 @@ class DetailViewModel @Inject constructor(
         movieJob?.cancel()
         movieJob = viewModelScope.launch(Dispatchers.IO) {
             theMoviesUseCases.getTheMoviesDetailUseCase(movieId).onEach { result ->
-                when(result) {
+                when (result) {
                     is Resource.Success -> {
                         _state.value = TheMoviesDetailState(
                             isLoading = false,
-                            theMoviesDetail = result.data
+                            theMoviesDetail = result.data,
                         )
                     }
+
                     is Resource.Error -> {
                         _state.value = TheMoviesDetailState(
                             isLoading = false,
                             error = result.message ?: "An unexpected error occured"
                         )
                     }
+
                     is Resource.Loading -> {
                         _state.value = TheMoviesDetailState(
                             isLoading = true
@@ -64,4 +64,18 @@ class DetailViewModel @Inject constructor(
         }
         _isLoading.value = false
     }
+
+    fun onFavoriteMovie(theMovies: TheMovies) {
+        insertFavoriteMovie(theMovies)
+        _state.value = TheMoviesDetailState(
+            isLoading = false,
+            theMoviesDetail = theMovies,
+            isFavorite = true
+        )
+    }
+
+    private fun insertFavoriteMovie(theMovies: TheMovies) =
+        viewModelScope.launch(Dispatchers.IO) {
+            theMoviesUseCases.getTheMoviesFavoriteUseCase.favoriteInsert(theMovies.toTheMoviesFavoriteEntity())
+        }
 }

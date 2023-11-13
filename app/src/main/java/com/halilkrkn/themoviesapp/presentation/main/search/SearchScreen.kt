@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,8 +76,9 @@ fun SearchScreen(
                             )
                         )
                     }
-
                 },
+                modifier = Modifier
+                    .fillMaxWidth()
             )
         }
     ) {
@@ -137,8 +139,13 @@ fun SearchScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
+                        LoadingProgressBar(
+                            modifier = Modifier
+                                .size(width = 200.dp, height = 200.dp),
+                            raw = R.raw.empty_search
+                        )
                         Text(
-                            text = if (searchQuery.isEmpty()) "Lütfen bir arama yapınız." else "'$searchQuery' ile ilgili bir cevap bulunamadı.",
+                            text = if (searchQuery.isEmpty()) "Please make a call." else "No answer found for '$searchQuery'",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentWidth(Alignment.CenterHorizontally)

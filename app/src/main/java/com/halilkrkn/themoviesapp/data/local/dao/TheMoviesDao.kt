@@ -18,9 +18,7 @@ interface TheMoviesDao {
     @Delete
     suspend fun delete(theMovies: TheMoviesEntity)
 
-    //    @Query("SELECT * FROM movies ORDER BY id DESC")
-//    fun getAllTheMovies(): Flow<List<TheMoviesEntity>>
-    @Query("SELECT * FROM movies")
+    @Query("SELECT * FROM movies ORDER BY id DESC")
     fun getAllTheMovies(): PagingSource<Int, TheMoviesEntity>
 
     @Query("SELECT * FROM movies WHERE title LIKE '%' || :searchQuery || '%' ORDER BY title DESC")
