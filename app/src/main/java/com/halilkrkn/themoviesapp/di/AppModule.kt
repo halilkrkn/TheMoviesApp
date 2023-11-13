@@ -8,6 +8,7 @@ import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
 import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
 import com.halilkrkn.themoviesapp.data.repository.TheMoviesRepositoryImpl
 import com.halilkrkn.themoviesapp.domain.usecase.GetAllTheMoviesUseCase
+import com.halilkrkn.themoviesapp.domain.usecase.GetSearchTheMoviesUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.GetTheMoviesDetailUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
 import dagger.Module
@@ -78,8 +79,8 @@ object AppModule {
     fun provideTheMoviesUseCases(repository: TheMoviesRepository): TheMoviesUseCases {
         return TheMoviesUseCases(
             getAllTheMoviesUseCase = GetAllTheMoviesUseCase(repository),
-            getTheMoviesDetailUseCase = GetTheMoviesDetailUseCase(repository)
-
+            getTheMoviesDetailUseCase = GetTheMoviesDetailUseCase(repository),
+            getSearchTheMoviesUseCase = GetSearchTheMoviesUseCase(repository)
         )
     }
 

@@ -19,7 +19,7 @@ fun LoadingProgressBar(
 ) {
     Box(
         modifier = modifier
-            .size(100.dp,100.dp),
+            .size(150.dp,150.dp),
         contentAlignment = Alignment.Center,
     ) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(raw))

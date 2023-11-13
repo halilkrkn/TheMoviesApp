@@ -20,12 +20,11 @@ interface TheMoviesApi {
         @Path("id") id: Int,
         @Query("api_key") apiKey: String = API_KEY,
     ): TheMoviesDetailDto
+
     @GET("search/movie")
     suspend fun searchTheMovies(
-        @Query("page") page: Int,
-        @Query("total_pages") totalPages: Int,
         @Query("query") query: String,
-//        @Query("year") year: String,
         @Query("api_key") apiKey: String = API_KEY,
     ): TheMoviesPageDto
+
 }
