@@ -10,6 +10,7 @@ import com.halilkrkn.themoviesapp.data.repository.TheMoviesRepositoryImpl
 import com.halilkrkn.themoviesapp.domain.usecase.GetAllTheMoviesUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.GetSearchTheMoviesUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.GetTheMoviesDetailUseCase
+import com.halilkrkn.themoviesapp.domain.usecase.GetTheMoviesFavoriteUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
 import dagger.Module
 import dagger.Provides
@@ -80,10 +81,8 @@ object AppModule {
         return TheMoviesUseCases(
             getAllTheMoviesUseCase = GetAllTheMoviesUseCase(repository),
             getTheMoviesDetailUseCase = GetTheMoviesDetailUseCase(repository),
-            getSearchTheMoviesUseCase = GetSearchTheMoviesUseCase(repository)
+            getSearchTheMoviesUseCase = GetSearchTheMoviesUseCase(repository),
+            getTheMoviesFavoriteUseCase = GetTheMoviesFavoriteUseCase(repository),
         )
     }
-
 }
-
-//TheMoviesDetailDto

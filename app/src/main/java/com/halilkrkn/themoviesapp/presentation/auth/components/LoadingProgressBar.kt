@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieClipSpec
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -15,7 +16,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 @Composable
 fun LoadingProgressBar(
     modifier: Modifier = Modifier,
-    raw: Int
+    raw: Int,
+    speed : Float = 1f,
 ) {
     Box(
         modifier = modifier
@@ -26,8 +28,9 @@ fun LoadingProgressBar(
         LottieAnimation(
             composition,
             iterations = LottieConstants.IterateForever,
-            speed = 1f,
+            speed = speed,
             alignment = Alignment.Center,
+            modifier = modifier
         )
     }
 }

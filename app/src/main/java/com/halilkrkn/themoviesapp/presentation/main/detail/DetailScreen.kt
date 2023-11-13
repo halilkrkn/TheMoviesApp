@@ -3,27 +3,22 @@ package com.halilkrkn.themoviesapp.presentation.main.detail
 import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,32 +27,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.halilkrkn.themoviesapp.R
-import com.halilkrkn.themoviesapp.core.Constants
 import com.halilkrkn.themoviesapp.core.Constants.TAG
-import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 import com.halilkrkn.themoviesapp.presentation.main.detail.components.DetailScreenItem
-import com.halilkrkn.themoviesapp.ui.theme.Pink40
 import com.halilkrkn.themoviesapp.ui.theme.PurpleGrey80
-import com.halilkrkn.themoviesapp.ui.theme.moreLightBlue
-import com.halilkrkn.themoviesapp.ui.theme.StarColor
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
@@ -75,31 +64,38 @@ fun DetailScreen(
 
     Scaffold(
         floatingActionButton = {
-            state.theMoviesDetail?.let {
+            state.theMoviesDetail?.let { theMovies ->
                 FloatingActionButton(
                     backgroundColor = PurpleGrey80,
                     onClick = {
-                        Log.d(TAG, "DetailScreen: ${it.id}")
+                        Log.d(TAG, "DetailScreen: ${theMovies.id}")
                         Toast.makeText(
                             navController.context,
-                            "DetailScreen: ${it.id}",
+                            theMovies.originalTitle,
                             Toast.LENGTH_SHORT
                         ).show()
-                        //viewModel.onAddToWatchList(it)
+                        viewModel.onFavoriteMovie(theMovies)
                     },
                     modifier = Modifier
                         .padding(12.dp)
                         .height(50.dp)
-                        .width(50.dp)
+                        .width(50.dp),
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
-                        contentDescription = "Add to WatchList",
-                        tint = Color.Black
-                    )
+                    if (state.isFavorite) {
+                        Icon(
+                            imageVector = Icons.Filled.Favorite,
+                            contentDescription = "Add to WatchList",
+                            tint = Color.Red
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Filled.FavoriteBorder,
+                            contentDescription = "Add to WatchList",
+                            tint = Color.DarkGray
+                        )
+                    }
                 }
             }
-
         },
         topBar = {
             TopAppBar(
@@ -134,9 +130,12 @@ fun DetailScreen(
                             Icon(Icons.Default.ArrowBack, contentDescription = "Geri")
                         }
                         Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "Geri")
+                        Text(text = "Back")
+
                     }
-                }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
             )
         }
     ) {
