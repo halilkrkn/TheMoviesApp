@@ -37,11 +37,6 @@ fun BottomNavGraph(
         composable(route = BottomBarScreen.FavoritesScreen.route) {
             FavoritesScreen(navController = navController)
         }
-//        composable(
-//            route = DetailsScreen.Detail.route + "/{movieId}"
-//        ) {
-//            DetailScreen(navController = navController)
-//        }
         detailsNavGraph(navController = navController)
         authNavGraph(navController = navController)
     }

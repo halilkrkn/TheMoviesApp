@@ -23,7 +23,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val theMoviesUseCases: TheMoviesUseCases,
-    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private val _state = mutableStateOf<TheMoviesDetailState>(TheMoviesDetailState())
@@ -31,14 +30,6 @@ class DetailViewModel @Inject constructor(
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading =  _isLoading.asStateFlow()
-
-
-//    init {
-////        savedStateHandle.get<Int>(MOVIE_ID)?.let { movieId ->
-////            getTheMoviesDetail(movieId)
-////        }
-//        getTheMoviesDetail()
-//    }
 
     fun onRefresh(movieId: Int) {
         getTheMoviesDetail(movieId)

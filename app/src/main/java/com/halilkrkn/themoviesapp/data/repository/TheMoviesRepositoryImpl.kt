@@ -7,6 +7,7 @@ import com.halilkrkn.themoviesapp.data.local.TheMoviesDatabase
 import com.halilkrkn.themoviesapp.data.local.model.TheMoviesEntity
 import com.halilkrkn.themoviesapp.data.paging.PagingTheMoviesMediator
 import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
+import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesPageDto
 import com.halilkrkn.themoviesapp.data.remote.dto.detail.TheMoviesDetailDto
 import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
 import javax.inject.Inject
@@ -36,4 +37,8 @@ class TheMoviesRepositoryImpl @Inject constructor(
         return theMoviesApi.getTheMoviesDetail(id)
     }
 
+    override suspend fun searchTheMovies(query: String): TheMoviesPageDto {
+         return theMoviesApi.searchTheMovies(query)
+
+    }
 }
