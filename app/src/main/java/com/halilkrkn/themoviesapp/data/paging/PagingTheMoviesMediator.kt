@@ -46,14 +46,14 @@ class PagingTheMoviesMediator(
                 page = loadKey,
                 totalPages = state.config.pageSize
             )
-            val deletedTheMovies = theMovies.theMoviesDtos.map { theMoviesDto ->
+            val theMoviesEntities = theMovies.theMoviesDtos.map { theMoviesDto ->
                 theMoviesDto.toTheMoviesEntity()
             }
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    db.theMoviesDao().delete(deletedTheMovies.first())
+                    db.theMoviesDao().delete()
                 }
-                val theMoviesEntities = deletedTheMovies
+
                 db.theMoviesDao().insert(theMoviesEntities)
             }
             MediatorResult.Success(

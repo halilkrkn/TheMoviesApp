@@ -16,10 +16,9 @@ class GetTheMoviesDetailUseCase @Inject constructor(
         try {
             emit(Resource.Loading())
             val theMoviesDetail = theMoviesRepository.getTheMoviesDetail(id).toTheMovies()
-        emit(Resource.Success(theMoviesDetail))
-    } catch (e: Exception)
-    {
-        emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
+            emit(Resource.Success(theMoviesDetail))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
+        }
     }
-}
 }
