@@ -8,6 +8,9 @@ import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
 import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
 import com.halilkrkn.themoviesapp.data.repository.TheMoviesRepositoryImpl
 import com.halilkrkn.themoviesapp.domain.usecase.GetAllTheMoviesUseCase
+import com.halilkrkn.themoviesapp.domain.usecase.GetSearchTheMoviesUseCase
+import com.halilkrkn.themoviesapp.domain.usecase.GetTheMoviesDetailUseCase
+import com.halilkrkn.themoviesapp.domain.usecase.GetTheMoviesFavoriteUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
 import dagger.Module
 import dagger.Provides
@@ -17,6 +20,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -44,6 +48,7 @@ object AppModule {
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 
@@ -74,8 +79,10 @@ object AppModule {
     @Provides
     fun provideTheMoviesUseCases(repository: TheMoviesRepository): TheMoviesUseCases {
         return TheMoviesUseCases(
-            getAllTheMoviesUseCase = GetAllTheMoviesUseCase(repository)
+            getAllTheMoviesUseCase = GetAllTheMoviesUseCase(repository),
+            getTheMoviesDetailUseCase = GetTheMoviesDetailUseCase(repository),
+            getSearchTheMoviesUseCase = GetSearchTheMoviesUseCase(repository),
+            getTheMoviesFavoriteUseCase = GetTheMoviesFavoriteUseCase(repository),
         )
     }
-
 }

@@ -15,11 +15,9 @@ interface TheMoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(theMovies: List<TheMoviesEntity>)
 
-    @Delete
-    suspend fun delete(theMovies: TheMoviesEntity)
+    @Query ("DELETE FROM movies")
+    suspend fun delete()
 
-    //    @Query("SELECT * FROM movies ORDER BY id DESC")
-//    fun getAllTheMovies(): Flow<List<TheMoviesEntity>>
     @Query("SELECT * FROM movies")
     fun getAllTheMovies(): PagingSource<Int, TheMoviesEntity>
 

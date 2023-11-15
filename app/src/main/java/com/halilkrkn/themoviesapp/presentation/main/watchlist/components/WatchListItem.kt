@@ -1,5 +1,6 @@
 package com.halilkrkn.themoviesapp.presentation.main.watchlist.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -28,6 +29,7 @@ import com.halilkrkn.themoviesapp.ui.theme.TheMoviesAppTheme
 fun WatchListItem(
     theMovies: TheMovies,
     modifier: Modifier = Modifier,
+    onItemClick: (TheMovies) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -35,6 +37,9 @@ fun WatchListItem(
     ) {
         Row(
             modifier = Modifier
+                .clickable {
+                    onItemClick(theMovies)
+                }
                 .fillMaxWidth()
                 .height(IntrinsicSize.Max)
                 .padding(16.dp)
@@ -68,7 +73,7 @@ fun WatchListItem(
 
 @Preview
 @Composable
-fun BeerItemPreview() {
+fun WatchListItemPreview() {
     TheMoviesAppTheme {
         WatchListItem(
             theMovies = TheMovies(
@@ -86,7 +91,8 @@ fun BeerItemPreview() {
                 voteAverage = 0.0,
                 voteCount = 0
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            onItemClick = {}
         )
     }
 }

@@ -99,7 +99,6 @@ fun WatchListScreen(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -125,6 +124,7 @@ fun WatchListScreen(
         ) {
             WatchListItemScreen(
                 theMovies = theMovies,
+                navController = navController
             )
         }
     }

@@ -3,7 +3,7 @@ package com.halilkrkn.themoviesapp.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class TheMoviesPageDto(
+data class TheMoviesAllDto(
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")

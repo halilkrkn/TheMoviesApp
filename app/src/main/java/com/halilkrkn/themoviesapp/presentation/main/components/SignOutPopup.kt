@@ -116,7 +116,6 @@ fun SignOut(
         }
         Button(
             onClick = {
-                // Çıkış işlemi burada yapılabilir
                 onSignOut()
             }
         ) {

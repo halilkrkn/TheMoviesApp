@@ -15,7 +15,6 @@ fun NavGraphBuilder.splashNavGraph(
         startDestination = SplashScreen.Splash.route,
         route = Graphs.SPLASH
     ) {
-
         composable(
             route = SplashScreen.Splash.route
         ) {
