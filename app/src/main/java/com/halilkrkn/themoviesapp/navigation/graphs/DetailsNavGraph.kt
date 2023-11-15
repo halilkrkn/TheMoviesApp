@@ -23,8 +23,5 @@ fun NavGraphBuilder.detailsNavGraph(
                 type = NavType.IntType },
             )) {navBackStackEntry ->  DetailScreen(navController = navController, movieId = navBackStackEntry.arguments?.getInt("movieId"))
         }
-//        ) {
-//            DetailScreen(navController = navController, movieId = it.arguments?.getInt("movieId"))
-//        }
     }
 }

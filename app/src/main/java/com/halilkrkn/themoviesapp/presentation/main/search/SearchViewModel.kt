@@ -63,15 +63,4 @@ class SearchViewModel @Inject constructor(
                 }.launchIn(viewModelScope)
         }
     }
-
-//    private val currentQuery = mutableStateOf("")
-//
-//    val theMovies = currentQuery.value.let { query ->
-//        theMoviesUseCases.getSearchTheMoviesUseCase(query).flowOn(Dispatchers.IO)
-//    }
-//
-//    fun searchTheMovies(query: String) {
-//        currentQuery.value = query
-//    }
-
 }

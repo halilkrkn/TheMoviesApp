@@ -18,7 +18,6 @@ class SignUpViewModel @Inject constructor(
     private val _signUpState = mutableStateOf<SignUpState>(SignUpState())
     val signUpState: State<SignUpState> = _signUpState
 
-
     fun signUpWithEmailAndPassword(email: String, password: String) {
         viewModelScope.launch {
             repository.signUpWithEmailAndPassword(email, password).collect { result ->

@@ -41,5 +41,3 @@ fun BottomNavGraph(
         authNavGraph(navController = navController)
     }
 }
-
-//https://developer.android.com/jetpack/compose/navigation
