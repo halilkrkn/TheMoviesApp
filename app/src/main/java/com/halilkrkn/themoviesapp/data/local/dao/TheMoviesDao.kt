@@ -15,7 +15,7 @@ interface TheMoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(theMovies: List<TheMoviesEntity>)
 
-    @Query("DELETE FROM movies")
+    @Query ("DELETE FROM movies")
     suspend fun delete()
 
     @Query("SELECT * FROM movies")

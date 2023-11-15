@@ -1,7 +1,7 @@
 package com.halilkrkn.themoviesapp.data.remote.api
 
 import com.halilkrkn.themoviesapp.core.Constants.API_KEY
-import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesPageDto
+import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesAllDto
 import com.halilkrkn.themoviesapp.data.remote.dto.detail.TheMoviesDetailDto
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,7 +13,7 @@ interface TheMoviesApi {
         @Query("page") page: Int,
         @Query("total_pages") totalPages: Int,
         @Query("api_key") apiKey: String = API_KEY,
-    ): TheMoviesPageDto
+    ): TheMoviesAllDto
 
     @GET("movie/{id}")
      suspend fun getTheMoviesDetail(
@@ -25,6 +25,6 @@ interface TheMoviesApi {
     suspend fun searchTheMovies(
         @Query("query") query: String,
         @Query("api_key") apiKey: String = API_KEY,
-    ): TheMoviesPageDto
+    ): TheMoviesAllDto
 
 }

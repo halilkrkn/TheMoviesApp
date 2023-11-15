@@ -16,7 +16,7 @@ interface TheMoviesFavoriteDao {
     @Delete
     suspend fun delete(favoriteMovies: TheMoviesFavoriteEntity)
 
-    @Query("SELECT * FROM movies_favorite")
+    @Query("SELECT * FROM movies_favorite ORDER BY id DESC")
     fun getAllFavorite(): Flow<List<TheMoviesFavoriteEntity>>
 
     @Query("SELECT * FROM movies_favorite WHERE title LIKE '%' || :searchQuery || '%' ORDER BY title DESC")

@@ -22,14 +22,3 @@ class GetSearchTheMoviesUseCase @Inject constructor(
         emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
     }
 }
-
-
-//= flow {
-//    emit(Resource.Loading())
-//    val response = theMoviesRepository.searchTheMovies(query)
-//    val theMovies = response.theMoviesDtos
-//    Log.d("Invoke", "invoke: $theMovies")
-//    emit(Resource.Success(theMovies))
-//}.catch { e ->
-//    emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
-//}
