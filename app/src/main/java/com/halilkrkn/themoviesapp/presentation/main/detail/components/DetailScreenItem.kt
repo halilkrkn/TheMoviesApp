@@ -1,6 +1,7 @@
 package com.halilkrkn.themoviesapp.presentation.main.detail.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,11 +13,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
@@ -35,8 +39,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
+import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.core.Constants.IMAGE_BASE_URL
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
+import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 import com.halilkrkn.themoviesapp.ui.theme.StarColor
 import com.halilkrkn.themoviesapp.ui.theme.TheMoviesAppTheme
 import com.halilkrkn.themoviesapp.ui.theme.moreLightBlue
@@ -76,8 +83,30 @@ fun DetailScreenItemPoster(theMovies: TheMovies, modifier: Modifier) {
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-            AsyncImage(
+            SubcomposeAsyncImage(
                 model = IMAGE_BASE_URL + theMovies.backdropPath,
+                loading = {
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp, 100.dp)
+                            . background (Color.Black.copy(alpha = 0.1f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingProgressBar(
+                            modifier = Modifier
+                                .size(100.dp, 100.dp),
+                            raw = R.raw.image_loading
+                        )
+                    }
+                },
+                error = {
+                    LoadingProgressBar(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .size(100.dp, 100.dp),
+                        raw = R.raw.image_error
+                    )
+                },
                 contentDescription = theMovies.title,
                 contentScale = ContentScale.FillBounds,
                 modifier = modifier

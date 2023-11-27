@@ -132,7 +132,7 @@ fun SearchScreen(
                     },
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                if (searchQuery.isEmpty() && !state.isLoading) {
+                if (state.searchMovies.isEmpty() && !state.isLoading) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize(),
