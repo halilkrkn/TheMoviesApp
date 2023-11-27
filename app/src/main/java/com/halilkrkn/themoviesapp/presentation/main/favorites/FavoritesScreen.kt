@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -154,7 +156,12 @@ fun FavoritesScreen(
                             speed = 0.5f
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(text = "No Favorites Movies", textAlign = TextAlign.Center)
+                        Text(
+                            text = if (searchQuery.isEmpty()) "No Favorites Movies" else "No Favorites Movies with '$searchQuery'",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentWidth(Alignment.CenterHorizontally)
+                        )
                     }
                 }
                 Column(
@@ -172,7 +179,8 @@ fun FavoritesScreen(
                             scope.launch {
                                 val result = snackbarHostState.showSnackbar(
                                     message = "Note deleted",
-                                    actionLabel = "Undo"
+                                    actionLabel = "Undo",
+                                    duration = SnackbarDuration.Short
                                 )
                                 if (result == SnackbarResult.ActionPerformed) {
                                     viewModel.onInsertFavoritesMovie(theMovie.first())
