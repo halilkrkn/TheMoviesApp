@@ -96,7 +96,7 @@ fun FavoritesScreen(
                     .fillMaxWidth()
             )
         }
-    ) {
+    ) { it ->
         Box(
             modifier = Modifier
                 .padding(it)
@@ -179,8 +179,8 @@ fun FavoritesScreen(
                     FavoriteListItemScreen(
                         theMovies = theMovies,
                         navController = navController,
-                        deleteClick = {
-                            viewModel.onDeleteFavoritesMovie(theMovie.first())
+                        deleteClick = { movies ->
+                            viewModel.onDeleteFavoritesMovie(movies)
                             scope.launch {
                                 val result = snackbarHostState.showSnackbar(
                                     message = "Note deleted",
@@ -188,7 +188,7 @@ fun FavoritesScreen(
                                     duration = SnackbarDuration.Short
                                 )
                                 if (result == SnackbarResult.ActionPerformed) {
-                                    viewModel.onInsertFavoritesMovie(theMovie.first())
+                                    viewModel.onInsertFavoritesMovie(movies)
                                     viewModel.onRefresh(userId)
                                 }
                             }
