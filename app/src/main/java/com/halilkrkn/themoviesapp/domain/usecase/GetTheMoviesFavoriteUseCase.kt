@@ -1,5 +1,7 @@
 package com.halilkrkn.themoviesapp.domain.usecase
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.halilkrkn.themoviesapp.core.Resource
 import com.halilkrkn.themoviesapp.data.local.model.TheMoviesFavoriteEntity
 import com.halilkrkn.themoviesapp.data.mappers.toTheMovies
@@ -19,9 +21,9 @@ class GetTheMoviesFavoriteUseCase @Inject constructor(
 
     suspend fun favoriteDelete(theMovies: TheMoviesFavoriteEntity) = theMoviesRepository.deleteFavorite(theMovies)
 
-    fun getAllFavorites(): Flow<Resource<List<TheMovies>>> = flow {
+    fun getAllFavorites(userId: String): Flow<Resource<List<TheMovies>>> = flow {
         emit(Resource.Loading())
-        val response = theMoviesRepository.getAllFavorites().first().map { it.toTheMovies() }
+        val response = theMoviesRepository.getAllFavorites(userId).first().map { it.toTheMovies() }
         emit(Resource.Success(response))
     }.catch {
         emit(Resource.Error(it.localizedMessage ?: "An unexpected error occurred"))

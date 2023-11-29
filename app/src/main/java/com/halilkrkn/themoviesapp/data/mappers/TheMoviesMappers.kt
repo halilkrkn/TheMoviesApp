@@ -1,5 +1,6 @@
 package com.halilkrkn.themoviesapp.data.mappers
 
+import com.google.firebase.auth.FirebaseAuth
 import com.halilkrkn.themoviesapp.data.local.model.TheMoviesEntity
 import com.halilkrkn.themoviesapp.data.local.model.TheMoviesFavoriteEntity
 import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesDto
@@ -20,7 +21,8 @@ fun TheMoviesDto.toTheMoviesEntity(): TheMoviesEntity {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        userId = null
     )
 }
 
@@ -38,7 +40,8 @@ fun TheMoviesEntity.toTheMovies(): TheMovies {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     )
 }
 
@@ -56,7 +59,8 @@ fun TheMoviesDto.toTheMovies(): TheMovies {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     )
 }
 
@@ -92,7 +96,8 @@ fun TheMoviesDetailDto.toTheMovies(): TheMovies {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     )
 }
 
@@ -110,7 +115,8 @@ fun TheMoviesFavoriteEntity.toTheMovies(): TheMovies {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        userId = userId
     )
 }
 
@@ -128,6 +134,7 @@ fun TheMovies.toTheMoviesFavoriteEntity(): TheMoviesFavoriteEntity {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        userId = userId
     )
 }

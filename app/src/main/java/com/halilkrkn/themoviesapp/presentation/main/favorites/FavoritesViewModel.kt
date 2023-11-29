@@ -4,6 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.halilkrkn.themoviesapp.core.Resource
 import com.halilkrkn.themoviesapp.data.mappers.toTheMovies
 import com.halilkrkn.themoviesapp.data.mappers.toTheMoviesFavoriteEntity
@@ -23,7 +25,10 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val theMoviesUseCases: TheMoviesUseCases,
+    private val firebaseUser: FirebaseAuth?
 ) : ViewModel() {
+
+    val userId = firebaseUser?.currentUser?.uid.toString()
 
     private val _state = mutableStateOf<TheMoviesFavoriteState>(TheMoviesFavoriteState())
     val state: State<TheMoviesFavoriteState> = _state
@@ -37,18 +42,18 @@ class FavoritesViewModel @Inject constructor(
     private var movieJob: Job? = null
 
     init {
-        getTheMoviesFavoriteMovie()
+        getTheMoviesFavoriteMovie(userId)
     }
 
-    fun onRefresh() {
-        getTheMoviesFavoriteMovie()
+    fun onRefresh(userId: String) {
+        getTheMoviesFavoriteMovie(userId)
     }
 
-    private fun getTheMoviesFavoriteMovie() {
+    private fun getTheMoviesFavoriteMovie(userId: String) {
         _isLoading.value = true
         movieJob?.cancel()
         movieJob = viewModelScope.launch(Dispatchers.IO) {
-            theMoviesUseCases.getTheMoviesFavoriteUseCase.getAllFavorites().onEach { result ->
+            theMoviesUseCases.getTheMoviesFavoriteUseCase.getAllFavorites(userId).onEach { result ->
                 when (result) {
                     is Resource.Success -> {
                         _state.value = TheMoviesFavoriteState(

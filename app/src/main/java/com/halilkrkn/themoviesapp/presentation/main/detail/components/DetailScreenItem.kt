@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
+import com.google.firebase.auth.FirebaseAuth
 import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.core.Constants.IMAGE_BASE_URL
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
@@ -222,7 +223,8 @@ fun DetailScreenItemPreview() {
                 title = "Hızlı ve Öfkeli 9",
                 video = false,
                 voteAverage = 4.5,
-                voteCount = 0
+                voteCount = 0,
+                userId = FirebaseAuth.getInstance().uid.toString()
             ),
         )
     }
