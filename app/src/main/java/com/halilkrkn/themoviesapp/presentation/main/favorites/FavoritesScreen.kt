@@ -182,14 +182,20 @@ fun FavoritesScreen(
                         deleteClick = { movies ->
                             viewModel.onDeleteFavoritesMovie(movies)
                             scope.launch {
-                                val result = snackbarHostState.showSnackbar(
-                                    message = "Note deleted",
+                                when (snackbarHostState.showSnackbar(
+                                    message = "Movie deleted from favorites",
                                     actionLabel = "Undo",
+                                    withDismissAction = true,
                                     duration = SnackbarDuration.Short
-                                )
-                                if (result == SnackbarResult.ActionPerformed) {
-                                    viewModel.onInsertFavoritesMovie(movies)
-                                    viewModel.onRefresh(userId)
+                                )) {
+                                    SnackbarResult.ActionPerformed -> {
+                                        viewModel.onInsertFavoritesMovie(movies)
+                                        viewModel.onRefresh(userId)
+
+                                    }
+                                    SnackbarResult.Dismissed -> {
+                                        viewModel.onDeleteFavoritesMovie(movies)
+                                    }
                                 }
                             }
                             viewModel.onRefresh(userId)
