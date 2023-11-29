@@ -19,10 +19,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
@@ -47,15 +51,14 @@ import com.halilkrkn.themoviesapp.ui.theme.TheMoviesAppTheme
 @Composable
 fun FavoriteListItem(
     theMovies: TheMovies,
-    modifier: Modifier = Modifier,
     onItemClick: (TheMovies) -> Unit,
-    deleteClick: () -> Unit,
+    deleteClick: (TheMovies) -> Unit,
 ) {
 
     val dismissState = rememberDismissState(
         confirmValueChange = {
             if (it == DismissValue.DismissedToStart) {
-                deleteClick()
+                deleteClick(theMovies)
             }
             it != DismissValue.DismissedToEnd
         },
@@ -73,8 +76,11 @@ fun FavoriteListItem(
         dismissContent = {
             FavoriteItem(
                 theMovies = theMovies,
-                onItemClick = {
-                    onItemClick(it)
+                onItemClick = { theMovies ->
+                    onItemClick(theMovies)
+                },
+                onDelete = {
+                    deleteClick(theMovies)
                 },
             )
         }
@@ -87,6 +93,7 @@ fun FavoriteItem(
     theMovies: TheMovies,
     onItemClick: (TheMovies) -> Unit,
     modifier: Modifier = Modifier,
+    onDelete: (TheMovies) -> Unit = {},
 ) {
     Card(
         modifier = modifier,
@@ -108,7 +115,7 @@ fun FavoriteItem(
                     Box(
                         modifier = Modifier
                             .size(100.dp, 100.dp)
-                            . background (Color.Black.copy(alpha = 0.1f)),
+                            .background(Color.Black.copy(alpha = 0.1f)),
                         contentAlignment = Alignment.Center
                     ) {
                         LoadingProgressBar(
@@ -146,9 +153,28 @@ fun FavoriteItem(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
+
+            Box(
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                IconButton(
+                    onClick = {
+                        onDelete(theMovies)
+                    },
+                    // Not'un sağ alt köşesine konumlandırıyoruz.
+                    modifier = Modifier.align(
+                        Alignment.BottomEnd
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete note"
+                    )
+                }
+            }
+
         }
     }
-
 }
 
 
@@ -173,7 +199,6 @@ fun SearchListItemPreview() {
                 voteCount = 0,
                 userId = FirebaseAuth.getInstance().uid.toString()
             ),
-            modifier = Modifier.fillMaxWidth(),
             onItemClick = {},
             deleteClick = {}
         )
