@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.auth.FirebaseAuth
 import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.core.Constants
 import com.halilkrkn.themoviesapp.core.Constants.IMAGE_BASE_URL
@@ -123,7 +124,8 @@ fun WatchListItemPreview() {
                 title = "Hızlı ve Öfkeli 9",
                 video = false,
                 voteAverage = 0.0,
-                voteCount = 0
+                voteCount = 0,
+                userId = FirebaseAuth.getInstance().uid.toString()
             ),
             modifier = Modifier.fillMaxWidth(),
             onItemClick = {}

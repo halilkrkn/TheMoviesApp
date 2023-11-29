@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
+import com.google.firebase.auth.FirebaseAuth
 import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.core.Constants
 import com.halilkrkn.themoviesapp.core.Constants.TAG
@@ -141,7 +142,8 @@ fun SearchMoviesItemPreview() {
             title = "Wall Street",
             video = false,
             voteAverage = 0.0,
-            voteCount = 0
+            voteCount = 0,
+            userId = FirebaseAuth.getInstance().uid.toString()
         ),
         onItemClick = {}
     )

@@ -1,5 +1,6 @@
 package com.halilkrkn.themoviesapp.data.repository
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -47,6 +48,7 @@ class TheMoviesRepositoryImpl @Inject constructor(
 
     // Database Operations
     override suspend fun insertFavorite(theMovies: TheMoviesFavoriteEntity) {
+        Log.d("userId", "UserId: " + theMovies.userId)
         return theMoviesDatabase.theMoviesFavoriteDao().insert(theMovies)
     }
 
@@ -54,8 +56,8 @@ class TheMoviesRepositoryImpl @Inject constructor(
         theMoviesDatabase.theMoviesFavoriteDao().delete(theMovies)
     }
 
-    override fun getAllFavorites(): Flow<List<TheMoviesFavoriteEntity>> {
-        return theMoviesDatabase.theMoviesFavoriteDao().getAllFavorite()
+    override fun getAllFavorites(userId: String): Flow<List<TheMoviesFavoriteEntity>> {
+        return theMoviesDatabase.theMoviesFavoriteDao().getAllFavorite(userId)
     }
 
     override fun searchFavorite(searchQuery: String): Flow<List<TheMoviesFavoriteEntity>> {

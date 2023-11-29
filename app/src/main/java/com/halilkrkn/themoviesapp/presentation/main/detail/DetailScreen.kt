@@ -75,6 +75,7 @@ fun DetailScreen(
                             Toast.LENGTH_SHORT
                         ).show()
                         viewModel.onFavoriteMovie(theMovies)
+                        Log.d("userId", "UserId: " + theMovies.userId)
                     },
                     modifier = Modifier
                         .padding(12.dp)
