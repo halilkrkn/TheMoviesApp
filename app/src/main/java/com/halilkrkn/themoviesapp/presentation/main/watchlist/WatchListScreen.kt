@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
@@ -41,11 +42,9 @@ import com.google.firebase.ktx.Firebase
 import com.halilkrkn.themoviesapp.navigation.util.Graphs
 import com.halilkrkn.themoviesapp.presentation.main.components.SignOutPopup
 import com.halilkrkn.themoviesapp.presentation.main.watchlist.components.WatchListItemScreen
-import kotlinx.coroutines.DelicateCoroutinesApi
 
-
-@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WatchListScreen(
     navController: NavController,
@@ -55,6 +54,7 @@ fun WatchListScreen(
     var isProfilePopupVisible by remember { mutableStateOf(false) }
     val firebaseAuth: FirebaseAuth = Firebase.auth
     val firebaseUser = firebaseAuth.currentUser
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -124,9 +124,11 @@ fun WatchListScreen(
         ) {
             WatchListItemScreen(
                 theMovies = theMovies,
-                navController = navController
+                navController = navController,
+                isRefreshing = isRefreshing
             )
         }
     }
 }
+
 
