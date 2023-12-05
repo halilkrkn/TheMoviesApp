@@ -5,6 +5,8 @@ import com.halilkrkn.themoviesapp.data.local.model.TheMoviesEntity
 import com.halilkrkn.themoviesapp.data.local.model.TheMoviesFavoriteEntity
 import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesAllDto
 import com.halilkrkn.themoviesapp.data.remote.dto.detail.TheMoviesDetailDto
+import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieDto
+import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieListsDto
 import kotlinx.coroutines.flow.Flow
 
 interface TheMoviesRepository {
@@ -13,6 +15,11 @@ interface TheMoviesRepository {
     fun getAllTheMovies(): Pager<Int, TheMoviesEntity>
     suspend fun getTheMoviesDetail(id: Int): TheMoviesDetailDto
     suspend fun searchTheMovies(query: String): TheMoviesAllDto
+
+    suspend fun getNowPlayingMovies(): TheExplorerMovieListsDto
+    suspend fun getPopularMovies(): TheExplorerMovieDto
+    suspend fun getTopRatedMovies(): TheExplorerMovieDto
+    suspend fun getUpcomingMovies(): TheExplorerMovieListsDto
 
     // Database Operations
     suspend fun insertFavorite(theMovies: TheMoviesFavoriteEntity)
