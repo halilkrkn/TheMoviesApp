@@ -79,6 +79,16 @@ fun WatchListItemScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                item {
+                    if (theMovies.loadState.prepend is LoadState.Loading) {
+                        LoadingProgressBar(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp),
+                            raw = R.raw.movie_splash_1
+                        )
+                    }
+                }
                 items(theMovies) { theMovies ->
                     if (theMovies != null) {
                         WatchListItem(
