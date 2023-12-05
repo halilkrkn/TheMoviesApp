@@ -2,6 +2,7 @@ package com.halilkrkn.themoviesapp.navigation.screens
 
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ManageSearch
@@ -29,5 +30,11 @@ sealed class BottomBarScreen(
         route = "favorites",
         icon = Icons.Filled.Favorite,
         title = "Favorites"
+    )
+
+    object ExploreScreen : BottomBarScreen(
+        route = "explore",
+        icon = Icons.Filled.Explore,
+        title = "Explore"
     )
 }

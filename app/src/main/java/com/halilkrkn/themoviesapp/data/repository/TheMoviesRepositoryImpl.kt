@@ -11,6 +11,8 @@ import com.halilkrkn.themoviesapp.data.paging.PagingTheMoviesMediator
 import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
 import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesAllDto
 import com.halilkrkn.themoviesapp.data.remote.dto.detail.TheMoviesDetailDto
+import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieDto
+import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieListsDto
 import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -44,6 +46,22 @@ class TheMoviesRepositoryImpl @Inject constructor(
     override suspend fun searchTheMovies(query: String): TheMoviesAllDto {
          return theMoviesApi.searchTheMovies(query)
 
+    }
+
+    override suspend fun getNowPlayingMovies(): TheExplorerMovieListsDto {
+        return theMoviesApi.getNowPlayingMovies()
+    }
+
+    override suspend fun getPopularMovies(): TheExplorerMovieDto {
+        return theMoviesApi.getPopularMovies()
+    }
+
+    override suspend fun getTopRatedMovies(): TheExplorerMovieDto {
+        return theMoviesApi.getTopRatedMovies()
+    }
+
+    override suspend fun getUpcomingMovies(): TheExplorerMovieListsDto {
+        return theMoviesApi.getUpcomingMovies()
     }
 
     // Database Operations

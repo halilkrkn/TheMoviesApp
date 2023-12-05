@@ -36,8 +36,9 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
         BottomBarScreen.SearchScreen,
+        BottomBarScreen.ExploreScreen,
         BottomBarScreen.WatchlistScreen,
-        BottomBarScreen.FavoritesScreen
+        BottomBarScreen.FavoritesScreen,
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
