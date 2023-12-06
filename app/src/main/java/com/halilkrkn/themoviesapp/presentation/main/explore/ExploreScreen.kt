@@ -4,18 +4,18 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -31,7 +31,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
-import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerMoviesScreen
+import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerNowPlayingMoviesScreen
+import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerPopularMoviesScreen
 import com.halilkrkn.themoviesapp.ui.theme.orangeColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,87 +53,117 @@ fun ExploreScreen(
             viewModel.onRefresh()
         }
     )
-
     Scaffold(
         topBar = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                TopAppBar(
-                    title = { Text(
-                        text = "Explore Movies",
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp
+            TopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Explorer Movies",
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp,
+                                color = Color.Black
+                            )
                         )
-                    ) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+                    }
+
+                },
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .fillMaxWidth()
+            )
         },
         content = {
-            Box(
+            LazyColumn(
                 modifier = Modifier
                     .padding(top = 24.dp, start = 8.dp, end = 8.dp)
                     .pullRefresh(pullRefreshState)
                     .fillMaxSize(),
-                contentAlignment = Alignment.Center
             ) {
-                Column(
-                    modifier = Modifier
-                        .padding(top = 24.dp, start = 4.dp, end = 4.dp)
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Now Playing Movies",
-                        modifier = Modifier
-                            .padding(start = 4.dp, end = 4.dp, top = 24.dp)
-                            .fillMaxWidth(),
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
-                        )
-                    )
-
-                    ExplorerMoviesScreen(
-                        theMovies = theMovies,
-                        navController = navController,
-                        isRefreshing = isRefreshing,
-                        onItemClick = {},
-                    )
+                item {
+                    if (state.isLoading) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Black.copy(alpha = 0.1f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LoadingProgressBar(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(24.dp),
+                                raw = R.raw.movie_splash_1
+                            )
+                        }
+                    }
                 }
-                if (state.isLoading) {
+                item {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.1f)),
-                        contentAlignment = Alignment.Center
+                            .padding(start = 8.dp, end = 8.dp)
                     ) {
-                        LoadingProgressBar(
+                        Text(
+                            text = "",
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp),
-                            raw = R.raw.movie_splash_1
+                                .padding(start = 4.dp, end = 4.dp)
+                                .fillMaxWidth(),
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = MaterialTheme.typography.headlineSmall.fontSize
+                            )
+                        )
+                        ExplorerNowPlayingMoviesScreen(
+                            theMovies = theMovies,
+                            navController = navController,
+                        )
+                        PullRefreshIndicator(
+                            refreshing = isRefreshing,
+                            state = pullRefreshState,
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            backgroundColor = Color.Black,
+                            contentColor = orangeColor,
+                            scale = true
                         )
                     }
                 }
-                 PullRefreshIndicator(
-                     refreshing = isRefreshing,
-                     state = pullRefreshState,
-                     modifier = Modifier.align(Alignment.TopCenter),
-                     backgroundColor = Color.Black,
-                     contentColor = orangeColor,
-                     scale = true
-                 )
+                item {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 8.dp)
+                    ) {
+                        Text(
+                            text = "",
+                            modifier = Modifier
+                                .padding(start = 4.dp, end = 4.dp)
+                                .fillMaxWidth(),
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = MaterialTheme.typography.headlineSmall.fontSize
+                            )
+                        )
+                        ExplorerPopularMoviesScreen(
+                            theMovies = theMovies,
+                            navController = navController,
+                        )
+                        PullRefreshIndicator(
+                            refreshing = isRefreshing,
+                            state = pullRefreshState,
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            backgroundColor = Color.Black,
+                            contentColor = orangeColor,
+                            scale = true
+                        )
+                    }
+                }
             }
         },
     )

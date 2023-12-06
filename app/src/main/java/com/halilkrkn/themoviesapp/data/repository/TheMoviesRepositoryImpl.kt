@@ -52,11 +52,11 @@ class TheMoviesRepositoryImpl @Inject constructor(
         return theMoviesApi.getNowPlayingMovies()
     }
 
-    override suspend fun getPopularMovies(): TheExplorerMovieDto {
+    override suspend fun getPopularMovies(): TheExplorerMovieListsDto {
         return theMoviesApi.getPopularMovies()
     }
 
-    override suspend fun getTopRatedMovies(): TheExplorerMovieDto {
+    override suspend fun getTopRatedMovies(): TheExplorerMovieListsDto {
         return theMoviesApi.getTopRatedMovies()
     }
 

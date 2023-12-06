@@ -17,8 +17,8 @@ interface TheMoviesRepository {
     suspend fun searchTheMovies(query: String): TheMoviesAllDto
 
     suspend fun getNowPlayingMovies(): TheExplorerMovieListsDto
-    suspend fun getPopularMovies(): TheExplorerMovieDto
-    suspend fun getTopRatedMovies(): TheExplorerMovieDto
+    suspend fun getPopularMovies(): TheExplorerMovieListsDto
+    suspend fun getTopRatedMovies(): TheExplorerMovieListsDto
     suspend fun getUpcomingMovies(): TheExplorerMovieListsDto
 
     // Database Operations

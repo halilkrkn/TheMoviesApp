@@ -40,13 +40,13 @@ interface TheMoviesApi {
     suspend fun getPopularMovies(
         @Query("language") language: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-    ): TheExplorerMovieDto
+    ): TheExplorerMovieListsDto
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
         @Query("language") language: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-    ): TheExplorerMovieDto
+    ): TheExplorerMovieListsDto
 
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(

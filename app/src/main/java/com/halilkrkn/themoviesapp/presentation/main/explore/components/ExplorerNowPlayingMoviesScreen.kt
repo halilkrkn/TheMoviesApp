@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -25,20 +23,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.halilkrkn.themoviesapp.domain.model.TheExplorerMovieLists
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ExplorerMoviesScreen(
-    modifier: Modifier = Modifier,
+fun ExplorerNowPlayingMoviesScreen(
     theMovies: List<TheMovies>,
     navController: NavController,
-    isRefreshing: Boolean,
-    onItemClick: (TheExplorerMovieLists) -> Unit,
 ) {
 
     val lazyListState = rememberLazyListState()
@@ -48,15 +44,32 @@ fun ExplorerMoviesScreen(
     Box(
         modifier = Modifier
             .fillMaxHeight(),
-    ) {
-        LazyRow(
-            state = lazyListState,
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth(),
+
         ) {
-            items(theMovies.take(if (isShowingMore) theMovies.size else 5)) { theMovies ->
-                if (theMovies != null) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp)
+        ) {
+            Text(
+                text = "Now Playing",
+                modifier = Modifier
+                    .padding(start = 4.dp, end = 4.dp, top = 24.dp)
+                    .fillMaxWidth(),
+                style = TextStyle(
+                    color = Color.Black,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = MaterialTheme.typography.headlineSmall.fontSize
+                )
+            )
+            LazyRow(
+                state = lazyListState,
+                modifier = Modifier
+                    .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                items(theMovies.take(if (isShowingMore) theMovies.size else 5)) { theMovies ->
                     NowPlayingMoviesItem(
                         theMovies = theMovies,
                         onItemClick = {
@@ -72,46 +85,40 @@ fun ExplorerMoviesScreen(
                         }
                     )
                 }
-            }
-            if (!isShowingMore) {
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillParentMaxSize()
-                            .padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Text(
-                            text = "Daha Fazla",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .clickable {
-                                    lazyListState.firstVisibleItemIndex.let {
-                                        scope.launch {
-                                            lazyListState.scrollToItem(it)
+                if (!isShowingMore) {
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = "Daha Fazla",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                                    .clickable {
+                                        lazyListState.firstVisibleItemIndex.let {
+                                            scope.launch {
+                                                lazyListState.scrollToItem(it)
+                                            }
                                         }
-                                    }
-                                    isShowingMore = true
-                                },
-                            color = Color.Gray,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
+                                        isShowingMore = true
+                                    },
+                                color = Color.Gray,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
                     }
                 }
             }
         }
-
-
-    }
-    if (isShowingMore) {
-        DisposableEffect(lazyListState) {
-            scope.launch {
-                lazyListState.scrollToItem(lazyListState.firstVisibleItemIndex)
+        if (isShowingMore) {
+            DisposableEffect(lazyListState) {
+                scope.launch {
+                    lazyListState.scrollToItem(lazyListState.firstVisibleItemIndex)
+                }
+                onDispose { }
             }
-            onDispose { }
         }
     }
-
 }
 
