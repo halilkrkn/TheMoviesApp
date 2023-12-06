@@ -1,6 +1,5 @@
 package com.halilkrkn.themoviesapp.presentation.main.explore.components
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,10 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.core.Constants.IMAGE_BASE_URL
-import com.halilkrkn.themoviesapp.domain.model.TheExplorerMovieLists
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 
@@ -98,7 +94,8 @@ fun NowPlayingMoviesItem(
                     .fillMaxWidth()
                     .padding(8.dp),
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 2,
             )
         }
     }

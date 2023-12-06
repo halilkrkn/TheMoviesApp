@@ -8,6 +8,7 @@ import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
 import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
 import com.halilkrkn.themoviesapp.data.repository.TheMoviesRepositoryImpl
 import com.halilkrkn.themoviesapp.domain.usecase.GetAllNowPlayingMoviesUseCase
+import com.halilkrkn.themoviesapp.domain.usecase.GetAllPopularMoviesUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.GetAllTheMoviesUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.GetSearchTheMoviesUseCase
 import com.halilkrkn.themoviesapp.domain.usecase.GetTheMoviesDetailUseCase
@@ -84,7 +85,8 @@ object AppModule {
             getTheMoviesDetailUseCase = GetTheMoviesDetailUseCase(repository),
             getSearchTheMoviesUseCase = GetSearchTheMoviesUseCase(repository),
             getTheMoviesFavoriteUseCase = GetTheMoviesFavoriteUseCase(repository),
-            getAllNowPlayingMoviesUseCase = GetAllNowPlayingMoviesUseCase(repository)
+            getAllNowPlayingMoviesUseCase = GetAllNowPlayingMoviesUseCase(repository),
+            getAllPopularMoviesUseCase = GetAllPopularMoviesUseCase(repository),
         )
     }
 }
