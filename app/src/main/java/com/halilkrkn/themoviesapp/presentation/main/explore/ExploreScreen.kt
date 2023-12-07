@@ -5,8 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
@@ -33,6 +35,7 @@ import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerNowPlayingMoviesScreen
 import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerPopularMoviesScreen
+import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerTopRatedMoviesScreen
 import com.halilkrkn.themoviesapp.ui.theme.orangeColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -43,8 +46,12 @@ fun ExploreScreen(
     viewModel: TheExplorerMoviesViewModel = hiltViewModel(),
 ) {
 
-    val state = viewModel.state.value
-    val theMovies = state.theExplorerMovies
+    val stateNowPlaying = viewModel.stateNowPlaying.value
+    val statePopular = viewModel.statePopular.value
+    val stateTopRated = viewModel.stateTopRated.value
+    val theNowPlayingMovies = stateNowPlaying.theExplorerMovies
+    val thePopularMovies = statePopular.theExplorerMovies
+    val theTopRatedMovies = stateTopRated.theExplorerMovies
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     val pullRefreshState = rememberPullRefreshState(
@@ -83,87 +90,74 @@ fun ExploreScreen(
         content = {
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = 24.dp, start = 8.dp, end = 8.dp)
+                    .padding(top = 18.dp, start = 4.dp, end = 4.dp)
                     .pullRefresh(pullRefreshState)
                     .fillMaxSize(),
             ) {
                 item {
-                    if (state.isLoading) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.Black.copy(alpha = 0.1f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LoadingProgressBar(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(24.dp),
-                                raw = R.raw.movie_splash_1
-                            )
-                        }
-                    }
-                }
-                item {
                     Box(
                         modifier = Modifier
-                            .padding(start = 8.dp, end = 8.dp)
+                            .padding(start = 4.dp, end = 4.dp)
                     ) {
-                        Text(
-                            text = "",
-                            modifier = Modifier
-                                .padding(start = 4.dp, end = 4.dp)
-                                .fillMaxWidth(),
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = MaterialTheme.typography.headlineSmall.fontSize
-                            )
-                        )
+                        Spacer(modifier = Modifier.height(2.dp))
                         ExplorerNowPlayingMoviesScreen(
-                            theMovies = theMovies,
+                            theMovies = theNowPlayingMovies,
                             navController = navController,
                         )
-                        PullRefreshIndicator(
-                            refreshing = isRefreshing,
-                            state = pullRefreshState,
-                            modifier = Modifier.align(Alignment.TopCenter),
-                            backgroundColor = Color.Black,
-                            contentColor = orangeColor,
-                            scale = true
-                        )
+
                     }
                 }
                 item {
                     Box(
                         modifier = Modifier
-                            .padding(start = 8.dp, end = 8.dp)
+                            .padding(start = 4.dp, end = 4.dp)
                     ) {
-                        Text(
-                            text = "",
-                            modifier = Modifier
-                                .padding(start = 4.dp, end = 4.dp)
-                                .fillMaxWidth(),
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = MaterialTheme.typography.headlineSmall.fontSize
-                            )
-                        )
+                        Spacer(modifier = Modifier.height(2.dp))
                         ExplorerPopularMoviesScreen(
-                            theMovies = theMovies,
+                            theMovies = thePopularMovies,
                             navController = navController,
                         )
-                        PullRefreshIndicator(
-                            refreshing = isRefreshing,
-                            state = pullRefreshState,
-                            modifier = Modifier.align(Alignment.TopCenter),
-                            backgroundColor = Color.Black,
-                            contentColor = orangeColor,
-                            scale = true
+
+                    }
+                }
+                item {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 4.dp, end = 4.dp)
+                    ) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        ExplorerTopRatedMoviesScreen(
+                            theMovies = theTopRatedMovies,
+                            navController = navController,
+                        )
+
+                    }
+                }
+            }
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (stateNowPlaying.isLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.1f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingProgressBar(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp),
+                            raw = R.raw.movie_splash_1
                         )
                     }
                 }
+                PullRefreshIndicator(
+                    refreshing = isRefreshing,
+                    state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    backgroundColor = Color.Black,
+                    contentColor = orangeColor,
+                    scale = true
+                )
             }
         },
     )

@@ -27,7 +27,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.halilkrkn.themoviesapp.domain.model.TheExplorerMovieLists
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import kotlinx.coroutines.launch
 
@@ -70,7 +69,7 @@ fun ExplorerNowPlayingMoviesScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 items(theMovies.take(if (isShowingMore) theMovies.size else 5)) { theMovies ->
-                    NowPlayingMoviesItem(
+                    TheExplorerMoviesItem(
                         theMovies = theMovies,
                         onItemClick = {
                             Toast.makeText(
