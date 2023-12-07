@@ -31,7 +31,7 @@ import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import kotlinx.coroutines.launch
 
 @Composable
-fun ExplorerPopularMoviesScreen(
+fun ExplorerTopRatedMoviesScreen(
     theMovies: List<TheMovies>,
     navController: NavController,
 ) {
@@ -50,7 +50,7 @@ fun ExplorerPopularMoviesScreen(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Popular",
+                text = "Top Rated",
                 modifier = Modifier
                     .padding(start = 4.dp, end = 4.dp, top = 24.dp)
                     .fillMaxWidth(),
