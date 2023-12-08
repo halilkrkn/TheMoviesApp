@@ -108,9 +108,8 @@ fun ExploreScreen(
                         ExplorerNowPlayingMoviesScreen(
                             theMovies = theNowPlayingMovies,
                             navController = navController,
-                            state = stateNowPlaying.isLoading,
+                            state = stateNowPlaying.isLoading
                         )
-
                     }
                 }
                 item {

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
+import com.halilkrkn.themoviesapp.navigation.screens.DetailsScreen
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 import kotlinx.coroutines.launch
 
@@ -38,7 +39,7 @@ import kotlinx.coroutines.launch
 fun ExplorerNowPlayingMoviesScreen(
     theMovies: List<TheMovies>,
     navController: NavController,
-    state : Boolean
+    state : Boolean,
 ) {
 
     val lazyListState = rememberLazyListState()
@@ -97,10 +98,10 @@ fun ExplorerNowPlayingMoviesScreen(
                                 "Clicked",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            /*  Log.d(Constants.TAG, "DetailScreen: ${theMovies.id}")
+//                              Log.d(Constants.TAG, "DetailScreen: ${theMovies.id}")
                               navController.navigate(
                                   DetailsScreen.Detail.route.plus("/${theMovies.id}")
-                              )*/
+                              )
                         }
                     )
                 }
