@@ -24,16 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.themoviesapp.R
-import com.halilkrkn.themoviesapp.core.Constants.IMAGE_BASE_URL
+import com.halilkrkn.themoviesapp.core.Constants
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 
 @Composable
-fun NowPlayingMoviesItem(
+fun TheExplorerMoviesItem(
     theMovies: TheMovies,
     modifier: Modifier = Modifier,
     onItemClick: (TheMovies) -> Unit,
@@ -57,7 +56,7 @@ fun NowPlayingMoviesItem(
 
         ) {
             SubcomposeAsyncImage(
-                model = IMAGE_BASE_URL + theMovies.posterPath,
+                model = Constants.IMAGE_BASE_URL + theMovies.posterPath,
                 loading = {
                     Box(
                         modifier = Modifier
@@ -99,15 +98,4 @@ fun NowPlayingMoviesItem(
             )
         }
     }
-
-}
-
-@Preview
-@Composable
-fun NowPlayingMoviesItemPreview() {
-//    NowPlayingMoviesItem(
-////        theMovies = ,
-//        onItemClick = {}
-//    )
-//
 }

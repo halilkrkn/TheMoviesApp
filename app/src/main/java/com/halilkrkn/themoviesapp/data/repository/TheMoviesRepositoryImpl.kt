@@ -66,7 +66,6 @@ class TheMoviesRepositoryImpl @Inject constructor(
 
     // Database Operations
     override suspend fun insertFavorite(theMovies: TheMoviesFavoriteEntity) {
-        Log.d("userId", "UserId: " + theMovies.userId)
         return theMoviesDatabase.theMoviesFavoriteDao().insert(theMovies)
     }
 

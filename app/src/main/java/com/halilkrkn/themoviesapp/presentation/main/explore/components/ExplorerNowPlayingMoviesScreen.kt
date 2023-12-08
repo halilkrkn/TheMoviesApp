@@ -1,11 +1,13 @@
 package com.halilkrkn.themoviesapp.presentation.main.explore.components
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -27,14 +29,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.halilkrkn.themoviesapp.domain.model.TheExplorerMovieLists
+import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
+import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 import kotlinx.coroutines.launch
 
 @Composable
 fun ExplorerNowPlayingMoviesScreen(
     theMovies: List<TheMovies>,
     navController: NavController,
+    state : Boolean
 ) {
 
     val lazyListState = rememberLazyListState()
@@ -51,6 +55,21 @@ fun ExplorerNowPlayingMoviesScreen(
                 .fillMaxWidth()
                 .padding(top = 24.dp)
         ) {
+            if (state) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.1f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LoadingProgressBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        raw = R.raw.movie_splash_1
+                    )
+                }
+            }
             Text(
                 text = "Now Playing",
                 modifier = Modifier
@@ -70,7 +89,7 @@ fun ExplorerNowPlayingMoviesScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 items(theMovies.take(if (isShowingMore) theMovies.size else 5)) { theMovies ->
-                    NowPlayingMoviesItem(
+                    TheExplorerMoviesItem(
                         theMovies = theMovies,
                         onItemClick = {
                             Toast.makeText(

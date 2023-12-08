@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.halilkrkn.themoviesapp.core.Resource
 import com.halilkrkn.themoviesapp.data.mappers.toTheMovies
 import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
-import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerMoviesState
+import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerNowPlayingMoviesState
+import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerPopularMoviesState
+import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerTopRatedMoviesState
+import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerUpcomingMoviesState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,9 +27,25 @@ class TheExplorerMoviesViewModel @Inject constructor(
     private val theMoviesUseCases: TheMoviesUseCases,
 ) : ViewModel() {
 
-    private val _state =
-        mutableStateOf<TheExplorerMoviesState>(TheExplorerMoviesState())
-    val state: State<TheExplorerMoviesState> = _state
+    private val _stateNowPlaying =
+        mutableStateOf<TheExplorerNowPlayingMoviesState>(TheExplorerNowPlayingMoviesState())
+    val stateNowPlaying: State<TheExplorerNowPlayingMoviesState> = _stateNowPlaying
+
+    private val _statePopular = mutableStateOf<TheExplorerPopularMoviesState>(
+        TheExplorerPopularMoviesState()
+    )
+    val statePopular: State<TheExplorerPopularMoviesState> = _statePopular
+
+    private val _stateTopRated = mutableStateOf<TheExplorerTopRatedMoviesState>(
+        TheExplorerTopRatedMoviesState()
+    )
+    val stateTopRated: State<TheExplorerTopRatedMoviesState> = _stateTopRated
+
+    private val _stateUpComing = mutableStateOf<TheExplorerUpcomingMoviesState>(
+        TheExplorerUpcomingMoviesState()
+    )
+    val stateUpComing: State<TheExplorerUpcomingMoviesState> = _stateUpComing
+
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -40,38 +59,43 @@ class TheExplorerMoviesViewModel @Inject constructor(
     init {
         getTheExploreNowPlayingMovies()
         getTheExplorePopularMovies()
+        getExploreTopRatedTheMovies()
+        getExploreUpcomingTheMovies()
     }
 
     fun onRefresh() {
         _isRefreshing.value = true
         getTheExploreNowPlayingMovies()
         getTheExplorePopularMovies()
+        getExploreTopRatedTheMovies()
+        getExploreUpcomingTheMovies()
         _isRefreshing.value = false
     }
+
     private fun getTheExploreNowPlayingMovies() {
         _isLoading.value = true
         movieJob?.cancel()
         movieJob = viewModelScope.launch(Dispatchers.IO) {
-            theMoviesUseCases.getAllNowPlayingMoviesUseCase.invoke().onEach { result ->
+            theMoviesUseCases.getExplorerMoviesUseCase.getNowPlayingMovies().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _state.value = TheExplorerMoviesState(
+                        _stateNowPlaying.value = TheExplorerNowPlayingMoviesState(
                             isLoading = false,
-                            theExplorerMovies = result.data?.map { theExplorerMovies ->
-                               theExplorerMovies.toTheMovies()
-                            }?: emptyList(),
+                            theExplorerMovies = result.data?.map {
+                                it.toTheMovies()
+                            } ?: emptyList(),
                         )
                     }
 
                     is Resource.Error -> {
-                        _state.value = TheExplorerMoviesState(
+                        _stateNowPlaying.value = TheExplorerNowPlayingMoviesState(
                             isLoading = false,
                             error = result.message ?: "An unexpected error occurred"
                         )
                     }
 
                     is Resource.Loading -> {
-                        _state.value = TheExplorerMoviesState(
+                        _stateNowPlaying.value = TheExplorerNowPlayingMoviesState(
                             isLoading = true,
                         )
                     }
@@ -86,26 +110,94 @@ class TheExplorerMoviesViewModel @Inject constructor(
         _isLoading.value = true
         movieJob?.cancel()
         movieJob = viewModelScope.launch(Dispatchers.IO) {
-            theMoviesUseCases.getAllPopularMoviesUseCase.invoke().onEach { result ->
+            theMoviesUseCases.getExplorerMoviesUseCase.getPopularMovies().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _state.value = TheExplorerMoviesState(
+                        _statePopular.value = TheExplorerPopularMoviesState(
                             isLoading = false,
-                            theExplorerMovies = result.data?.map { theExplorerMovies ->
-                                theExplorerMovies.toTheMovies()
-                            }?: emptyList(),
+                            theExplorerMovies = result.data?.map {
+                                it.toTheMovies()
+                            } ?: emptyList(),
                         )
                     }
 
                     is Resource.Error -> {
-                        _state.value = TheExplorerMoviesState(
+                        _statePopular.value = TheExplorerPopularMoviesState(
                             isLoading = false,
                             error = result.message ?: "An unexpected error occurred"
                         )
                     }
 
                     is Resource.Loading -> {
-                        _state.value = TheExplorerMoviesState(
+                        _statePopular.value = TheExplorerPopularMoviesState(
+                            isLoading = true,
+                        )
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+        _isLoading.value = false
+    }
+
+
+    private fun getExploreTopRatedTheMovies() {
+        _isLoading.value = true
+        movieJob?.cancel()
+        movieJob = viewModelScope.launch(Dispatchers.IO) {
+            theMoviesUseCases.getExplorerMoviesUseCase.getTopRatedMovies().onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _stateTopRated.value = TheExplorerTopRatedMoviesState(
+                            isLoading = false,
+                            theExplorerMovies = result.data?.map {
+                                it.toTheMovies()
+                            } ?: emptyList(),
+                            )
+                    }
+
+                    is Resource.Error -> {
+                        _stateTopRated.value = TheExplorerTopRatedMoviesState(
+                            isLoading = false,
+                            error = result.message ?: "An unexpected error occurred"
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        _stateTopRated.value = TheExplorerTopRatedMoviesState(
+                            isLoading = true,
+                        )
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+        _isLoading.value = false
+    }
+
+
+    private fun getExploreUpcomingTheMovies() {
+        _isLoading.value = true
+        movieJob?.cancel()
+        movieJob = viewModelScope.launch(Dispatchers.IO) {
+            theMoviesUseCases.getExplorerMoviesUseCase.getUpcomingMovies().onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _stateUpComing.value = TheExplorerUpcomingMoviesState(
+                            isLoading = false,
+                            theExplorerMovies = result.data?.map {
+                                it.toTheMovies()
+                            } ?: emptyList(),
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        _stateUpComing.value = TheExplorerUpcomingMoviesState(
+                            isLoading = false,
+                            error = result.message ?: "An unexpected error occurred"
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        _stateUpComing.value = TheExplorerUpcomingMoviesState(
                             isLoading = true,
                         )
                     }

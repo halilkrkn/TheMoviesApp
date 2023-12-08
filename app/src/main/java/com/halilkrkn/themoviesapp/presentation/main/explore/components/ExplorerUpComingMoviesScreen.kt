@@ -35,7 +35,7 @@ import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBa
 import kotlinx.coroutines.launch
 
 @Composable
-fun ExplorerPopularMoviesScreen(
+fun ExplorerUpComingMoviesScreen(
     theMovies: List<TheMovies>,
     navController: NavController,
     state : Boolean
@@ -70,7 +70,7 @@ fun ExplorerPopularMoviesScreen(
                 }
             }
             Text(
-                text = "Popular",
+                text = "Upcoming",
                 modifier = Modifier
                     .padding(start = 4.dp, end = 4.dp, top = 24.dp)
                     .fillMaxWidth(),
