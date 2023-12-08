@@ -36,6 +36,7 @@ import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBa
 import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerNowPlayingMoviesScreen
 import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerPopularMoviesScreen
 import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerTopRatedMoviesScreen
+import com.halilkrkn.themoviesapp.presentation.main.explore.components.ExplorerUpComingMoviesScreen
 import com.halilkrkn.themoviesapp.ui.theme.orangeColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -49,10 +50,14 @@ fun ExploreScreen(
     val stateNowPlaying = viewModel.stateNowPlaying.value
     val statePopular = viewModel.statePopular.value
     val stateTopRated = viewModel.stateTopRated.value
+    val stateUpcoming = viewModel.stateUpComing.value
     val theNowPlayingMovies = stateNowPlaying.theExplorerMovies
     val thePopularMovies = statePopular.theExplorerMovies
     val theTopRatedMovies = stateTopRated.theExplorerMovies
+    val theUpcomingMovies = stateUpcoming.theExplorerMovies
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+    val state = stateNowPlaying.isLoading && statePopular.isLoading && stateTopRated.isLoading && stateUpcoming.isLoading
+
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
@@ -103,6 +108,7 @@ fun ExploreScreen(
                         ExplorerNowPlayingMoviesScreen(
                             theMovies = theNowPlayingMovies,
                             navController = navController,
+                            state = stateNowPlaying.isLoading,
                         )
 
                     }
@@ -116,6 +122,7 @@ fun ExploreScreen(
                         ExplorerPopularMoviesScreen(
                             theMovies = thePopularMovies,
                             navController = navController,
+                            state = statePopular.isLoading,
                         )
 
                     }
@@ -129,27 +136,27 @@ fun ExploreScreen(
                         ExplorerTopRatedMoviesScreen(
                             theMovies = theTopRatedMovies,
                             navController = navController,
+                            state = stateTopRated.isLoading,
+                        )
+
+                    }
+                }
+                item {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 4.dp, end = 4.dp)
+                    ) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        ExplorerUpComingMoviesScreen(
+                            theMovies = theUpcomingMovies,
+                            navController = navController,
+                            state = stateUpcoming.isLoading,
                         )
 
                     }
                 }
             }
             Box(modifier = Modifier.fillMaxSize()) {
-                if (stateNowPlaying.isLoading) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.1f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LoadingProgressBar(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp),
-                            raw = R.raw.movie_splash_1
-                        )
-                    }
-                }
                 PullRefreshIndicator(
                     refreshing = isRefreshing,
                     state = pullRefreshState,
