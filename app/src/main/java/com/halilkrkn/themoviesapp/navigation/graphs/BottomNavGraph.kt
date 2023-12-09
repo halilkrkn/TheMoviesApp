@@ -12,6 +12,7 @@ import com.halilkrkn.themoviesapp.presentation.main.detail.DetailScreen
 import com.halilkrkn.themoviesapp.presentation.main.explore.ExploreScreen
 import com.halilkrkn.themoviesapp.presentation.main.favorites.FavoritesScreen
 import com.halilkrkn.themoviesapp.presentation.main.search.SearchScreen
+import com.halilkrkn.themoviesapp.presentation.main.trending.TrendingScreen
 import com.halilkrkn.themoviesapp.presentation.main.watchlist.WatchListScreen
 
 
@@ -41,6 +42,10 @@ fun BottomNavGraph(
 
         composable(route = BottomBarScreen.ExploreScreen.route) {
             ExploreScreen(navController = navController)
+        }
+
+        composable(route = BottomBarScreen.TrendingMoviesScreen.route) {
+            TrendingScreen(navController = navController)
         }
         detailsNavGraph(navController = navController)
         authNavGraph(navController = navController)

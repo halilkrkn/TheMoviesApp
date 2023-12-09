@@ -1,6 +1,5 @@
 package com.halilkrkn.themoviesapp.data.repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -11,8 +10,8 @@ import com.halilkrkn.themoviesapp.data.paging.PagingTheMoviesMediator
 import com.halilkrkn.themoviesapp.data.remote.api.TheMoviesApi
 import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesAllDto
 import com.halilkrkn.themoviesapp.data.remote.dto.detail.TheMoviesDetailDto
-import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieDto
 import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieListsDto
+import com.halilkrkn.themoviesapp.data.remote.dto.trending.TrendingMoviesDtos
 import com.halilkrkn.themoviesapp.domain.repository.TheMoviesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -27,9 +26,11 @@ class TheMoviesRepositoryImpl @Inject constructor(
     override fun getAllTheMovies(): Pager<Int, TheMoviesEntity> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
-                maxSize = 100,
-                enablePlaceholders = false,
+                pageSize = 20,             // Her sayfa 20 öğe içerecek
+                prefetchDistance = 5,       // Mevcut sayfanın sonuna gelmeden önce kaç sayfa önceden yüklenmeli?
+                initialLoadSize = 20 * 2,   // İlk yüklenme sırasında kaç öğe alınmalı? (pageSize * 2 gibi bir değer düşünebilirsiniz)
+                maxSize = 100,              // Bellekte saklanacak maksimum öğe sayısı
+                enablePlaceholders = false  // Yer tutucu öğeler kullanılmasın (gerçek veri hemen yüklensin)
             ),
             remoteMediator = PagingTheMoviesMediator(
                 theMoviesDatabase,
@@ -62,6 +63,14 @@ class TheMoviesRepositoryImpl @Inject constructor(
 
     override suspend fun getUpcomingMovies(): TheExplorerMovieListsDto {
         return theMoviesApi.getUpcomingMovies()
+    }
+
+    override suspend fun getTrendingDailyMovies(): TrendingMoviesDtos {
+        return theMoviesApi.getTrendingDailyMovies()
+    }
+
+    override suspend fun getTrendingWeeklyMovies(): TrendingMoviesDtos {
+        return theMoviesApi.getTrendingWeeklyMovies()
     }
 
     // Database Operations

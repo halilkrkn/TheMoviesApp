@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ManageSearch
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -36,5 +37,11 @@ sealed class BottomBarScreen(
         route = "explore",
         icon = Icons.Filled.Explore,
         title = "Explore"
+    )
+
+    object TrendingMoviesScreen : BottomBarScreen(
+        route = "trending",
+        icon = Icons.Filled.TrendingUp,
+        title = "Trending"
     )
 }

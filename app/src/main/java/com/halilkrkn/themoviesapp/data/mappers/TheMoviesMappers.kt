@@ -7,8 +7,10 @@ import com.halilkrkn.themoviesapp.data.remote.dto.TheMoviesDto
 import com.halilkrkn.themoviesapp.data.remote.dto.detail.TheMoviesDetailDto
 import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieDto
 import com.halilkrkn.themoviesapp.data.remote.dto.explore.TheExplorerMovieListsDto
+import com.halilkrkn.themoviesapp.data.remote.dto.trending.TrendingMoviesDto
 import com.halilkrkn.themoviesapp.domain.model.TheExplorerMovieLists
 import com.halilkrkn.themoviesapp.domain.model.TheMovies
+import com.halilkrkn.themoviesapp.domain.model.TheTrendingMovies
 
 fun TheMoviesDto.toTheMoviesEntity(): TheMoviesEntity {
     return TheMoviesEntity(
@@ -179,24 +181,40 @@ fun TheMovies.toTheExploreMovieDto(): TheExplorerMovieDto {
     )
 }
 
-fun TheExplorerMovieListsDto.toTheExplorerMovieLists(): TheExplorerMovieLists {
-    return TheExplorerMovieLists(
-        datesDto = datesDto,
-        page = page,
-        theExplorerMovieDtos = theExplorerMovieDtos,
-        totalPages = totalPages,
-        totalResults = totalResults,
-        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
+fun TrendingMoviesDto.toTrendingMovies(): TheTrendingMovies {
+    return TheTrendingMovies(
+        id = id,
+        adult = adult,
+        backdropPath = backdropPath,
+        mediaType = mediaType,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        releaseDate = releaseDate,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount
     )
 }
 
-fun TheExplorerMovieLists.toTheExplorerMoviesDto(): TheExplorerMovieListsDto {
-    return TheExplorerMovieListsDto(
-        datesDto = datesDto,
-        page = page,
-        theExplorerMovieDtos = theExplorerMovieDtos,
-        totalPages = totalPages,
-        totalResults = totalResults
+fun TheTrendingMovies.toTrendingMoviesDto(): TrendingMoviesDto {
+    return TrendingMoviesDto(
+        id = id,
+        adult = adult,
+        backdropPath = backdropPath,
+        mediaType = mediaType,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        releaseDate = releaseDate,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount
     )
 }
