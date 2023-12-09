@@ -65,7 +65,7 @@ class TheMoviesFavoriteDaoTest {
         dao.insert(favoriteMovie)
 
         // Then
-        dao.getAllFavorite().first().let { favoriteMovies ->
+        dao.getAllFavorite(favoriteMovie.userId).first().let { favoriteMovies ->
             assertThat(favoriteMovies).contains(favoriteMovie)
         }
     }
@@ -94,7 +94,7 @@ class TheMoviesFavoriteDaoTest {
         dao.delete(favoriteMovie)
 
         // Then
-        dao.getAllFavorite().first().let { favoriteMovies ->
+        dao.getAllFavorite(favoriteMovie.userId).first().let { favoriteMovies ->
             assertThat(favoriteMovies).doesNotContain(favoriteMovie)
         }
     }

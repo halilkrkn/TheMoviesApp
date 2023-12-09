@@ -59,7 +59,8 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage",
                 originalTitle = "originalTitle",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
             ),
             TheMoviesEntity(
                 id = 2,
@@ -74,7 +75,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage 2",
                 originalTitle = "originalTitle 2",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             ),
             TheMoviesEntity(
                 id = 3,
@@ -89,7 +92,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage 3",
                 originalTitle = "originalTitle 3",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             )
         )
 
@@ -123,7 +128,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage",
                 originalTitle = "originalTitle",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             ),
             TheMoviesEntity(
                 id = 2,
@@ -138,7 +145,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage 2",
                 originalTitle = "originalTitle 2",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             )
         )
 
@@ -172,7 +181,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage",
                 originalTitle = "originalTitle",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             ),
             TheMoviesEntity(
                 id = 2,
@@ -187,7 +198,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage 2",
                 originalTitle = "originalTitle 2",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             )
         )
 
@@ -221,7 +234,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage",
                 originalTitle = "originalTitle",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             ),
             TheMoviesEntity(
                 id = 2,
@@ -236,7 +251,9 @@ class TheMoviesDaoTest {
                 originalLanguage = "originalLanguage 2",
                 originalTitle = "originalTitle 2",
                 adult = false,
-                video = false
+                video = false,
+                userId = "userId"
+
             )
         )
 
