@@ -7,18 +7,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -115,18 +117,16 @@ fun InputChipMovies(
     onClickDaily: () -> Unit,
     onClickWeekly: () -> Unit,
 ) {
-    val itemsList = listOf("Day", "Week")
+    var selectedDaily by remember { mutableStateOf(false) }
+    var selectedWeekly by remember { mutableStateOf(false) }
 
-    var selectedItem by remember {
-        mutableStateOf(itemsList[0])
-    }
 
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
 
     ) {
-        items(itemsList) { item ->
+        item {
             InputChip(
                 shape = CircleShape,
                 border = InputChipDefaults.inputChipBorder(
@@ -134,18 +134,67 @@ fun InputChipMovies(
                     borderWidth = 2.dp
                 ),
                 modifier = Modifier.padding(horizontal = 6.dp),
-                selected = item == selectedItem,
+                selected = selectedDaily,
                 onClick = {
-                    selectedItem = item
-                    if (item == "Day")
-                        onClickDaily()
-                    else if (item == "Week") {
-                        onClickWeekly()
+                    selectedDaily = !selectedDaily
+                    selectedWeekly = false
+                    onClickDaily()
+                },
+                leadingIcon = if (selectedDaily) {
+                    {
+                        Icon(
+                            imageVector = Icons.Filled.Done,
+                            contentDescription = "Done icon",
+                            modifier = Modifier.size(FilterChipDefaults.IconSize)
+                        )
                     }
+                } else {
+                    null
                 },
                 label = {
                     Text(
-                        text = item,
+                        text = "Daily",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                            letterSpacing = MaterialTheme.typography.labelLarge.letterSpacing,
+                            fontWeight = MaterialTheme.typography.labelLarge.fontWeight,
+                        )
+                    )
+                }
+            )
+        }
+        item {
+            InputChip(
+                shape = CircleShape,
+                border = InputChipDefaults.inputChipBorder(
+                    borderColor = orangeColor,
+                    borderWidth = 2.dp
+                ),
+                modifier = Modifier.padding(horizontal = 6.dp),
+                selected = selectedWeekly,
+                onClick = {
+                    selectedWeekly = !selectedWeekly
+                    selectedDaily = false
+                    if (selectedWeekly) {
+                        onClickWeekly()
+                    } else
+                        onClickDaily()
+                },
+                leadingIcon = if (selectedWeekly) {
+                    {
+                        Icon(
+                            imageVector = Icons.Filled.Done,
+                            contentDescription = "Done icon",
+                            modifier = Modifier.size(FilterChipDefaults.IconSize)
+                        )
+                    }
+                } else {
+                    null
+                },
+                label = {
+                    Text(
+                        text = "Weekly",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
