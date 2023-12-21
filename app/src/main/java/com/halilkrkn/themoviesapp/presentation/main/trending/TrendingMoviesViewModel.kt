@@ -8,6 +8,7 @@ import com.halilkrkn.themoviesapp.core.Resource
 import com.halilkrkn.themoviesapp.data.mappers.toTrendingMovies
 import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,10 +49,10 @@ class TrendingMoviesViewModel @Inject constructor(
         _isRefreshing.value = false
     }
 
-    private fun getTheTrendingMovies() {
+    private fun getTheTrendingMovies(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         _isLoading.value = true
         movieJob?.cancel()
-        movieJob = viewModelScope.launch(Dispatchers.IO) {
+        movieJob = viewModelScope.launch(dispatcher) {
             theMoviesUseCases.getAllTrendingMoviesUseCase.getTrendingDailyMovies()
                 .onEach { result ->
                     when (result) {
@@ -86,15 +87,10 @@ class TrendingMoviesViewModel @Inject constructor(
         getTrendingWeeklyMovies()
     }
 
-    fun onRefreshWeeklyMovies() {
-        _isRefreshing.value = true
-        getTrendingWeeklyMovies()
-        _isRefreshing.value = false
-    }
-    private fun getTrendingWeeklyMovies() {
+    private fun getTrendingWeeklyMovies(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         _isLoading.value = true
         movieJob?.cancel()
-        movieJob = viewModelScope.launch(Dispatchers.IO) {
+        movieJob = viewModelScope.launch(dispatcher) {
             theMoviesUseCases.getAllTrendingMoviesUseCase.getTrendingWeeklyMovies()
                 .onEach { result ->
                     when (result) {
