@@ -71,10 +71,11 @@ fun DetailScreen(
                         Log.d(TAG, "DetailScreen: ${theMovies.id}")
                         Toast.makeText(
                             navController.context,
-                            theMovies.originalTitle,
+                            "Added " + theMovies.title,
                             Toast.LENGTH_SHORT
                         ).show()
                         viewModel.onFavoriteMovie(theMovies)
+                        Log.d("userId", "UserId: " + theMovies.userId)
                     },
                     modifier = Modifier
                         .padding(12.dp)

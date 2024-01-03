@@ -1,6 +1,7 @@
 package com.halilkrkn.themoviesapp.presentation.main.favorites
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -20,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -42,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.halilkrkn.themoviesapp.R
 import com.halilkrkn.themoviesapp.presentation.auth.components.LoadingProgressBar
 import com.halilkrkn.themoviesapp.presentation.main.favorites.component.FavoriteListItemScreen
@@ -61,6 +65,9 @@ fun FavoritesScreen(
     val theMovie = theMovies.map { it }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val userId: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
+    Log.d("userIdd", "UserId: $userId")
+
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
@@ -89,7 +96,7 @@ fun FavoritesScreen(
                     .fillMaxWidth()
             )
         }
-    ) {
+    ) { it ->
         Box(
             modifier = Modifier
                 .padding(it)
@@ -154,7 +161,12 @@ fun FavoritesScreen(
                             speed = 0.5f
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(text = "No Favorites Movies", textAlign = TextAlign.Center)
+                        Text(
+                            text = if (searchQuery.isEmpty()) "No Favorites Movies" else "No Favorites Movies with '$searchQuery'",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentWidth(Alignment.CenterHorizontally)
+                        )
                     }
                 }
                 Column(
@@ -167,19 +179,26 @@ fun FavoritesScreen(
                     FavoriteListItemScreen(
                         theMovies = theMovies,
                         navController = navController,
-                        deleteClick = {
-                            viewModel.onDeleteFavoritesMovie(theMovie.first())
+                        deleteClick = { movies ->
+                            viewModel.onDeleteFavoritesMovie(movies)
                             scope.launch {
-                                val result = snackbarHostState.showSnackbar(
-                                    message = "Note deleted",
-                                    actionLabel = "Undo"
-                                )
-                                if (result == SnackbarResult.ActionPerformed) {
-                                    viewModel.onInsertFavoritesMovie(theMovie.first())
-                                    viewModel.onRefresh()
+                                when (snackbarHostState.showSnackbar(
+                                    message = "Movie deleted from favorites",
+                                    actionLabel = "Undo",
+                                    withDismissAction = true,
+                                    duration = SnackbarDuration.Short
+                                )) {
+                                    SnackbarResult.ActionPerformed -> {
+                                        viewModel.onInsertFavoritesMovie(movies)
+                                        viewModel.onRefresh(userId)
+
+                                    }
+                                    SnackbarResult.Dismissed -> {
+                                        viewModel.onDeleteFavoritesMovie(movies)
+                                    }
                                 }
                             }
-                            viewModel.onRefresh()
+                            viewModel.onRefresh(userId)
                         }
                     )
                 }

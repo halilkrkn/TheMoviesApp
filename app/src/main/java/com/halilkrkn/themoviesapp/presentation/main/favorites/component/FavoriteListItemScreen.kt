@@ -21,7 +21,7 @@ import com.halilkrkn.themoviesapp.navigation.screens.DetailsScreen
 fun FavoriteListItemScreen(
     theMovies: List<TheMovies>,
     navController: NavController,
-    deleteClick: () -> Unit,
+    deleteClick: (TheMovies) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -43,14 +43,13 @@ fun FavoriteListItemScreen(
             ) { theMovies ->
                 FavoriteListItem(
                     theMovies = theMovies,
-                    modifier = Modifier.fillMaxWidth(),
-                    onItemClick = {
+                    onItemClick = { movies ->
                         navController.navigate(
-                            DetailsScreen.Detail.route.plus("/${theMovies.id}")
+                            DetailsScreen.Detail.route.plus("/${movies.id}")
                         )
                     },
                     deleteClick = {
-                       deleteClick()
+                       deleteClick(theMovies)
                     }
                 )
             }
