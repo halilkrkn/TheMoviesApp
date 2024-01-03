@@ -56,6 +56,7 @@ object Constants {
     const val RESET_PASSWORD_MESSAGE = "We've sent you an email with a link to reset the password."
     const val REVOKE_ACCESS_MESSAGE = "You need to re-authenticate before revoking the access."
     const val ACCESS_REVOKED_MESSAGE = "Your access has been revoked."
+    const val AN_UNEXPECTED_ERROR_OCCURRED = "An unexpected error occurred"
 
     //Error Messages
     const val SENSITIVE_OPERATION_MESSAGE = "This operation is sensitive and requires recent authentication. Log in again before retrying this request."

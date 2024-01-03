@@ -1,6 +1,5 @@
 package com.halilkrkn.themoviesapp.presentation.main.explore.components
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -92,12 +91,6 @@ fun ExplorerPopularMoviesScreen(
                     TheExplorerMoviesItem(
                         theMovies = theMovies,
                         onItemClick = {
-                            Toast.makeText(
-                                navController.context,
-                                "Clicked",
-                                Toast.LENGTH_SHORT
-                            ).show()
-//                              Log.d(Constants.TAG, "DetailScreen: ${theMovies.id}")
                               navController.navigate(
                                   DetailsScreen.Detail.route.plus("/${theMovies.id}")
                               )

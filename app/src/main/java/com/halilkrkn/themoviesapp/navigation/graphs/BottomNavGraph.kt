@@ -23,7 +23,7 @@ fun BottomNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreen.WatchlistScreen.route,
+        startDestination = BottomBarScreen.TrendingMoviesScreen.route,
         route = Graphs.MAIN,
         modifier = modifier
     ) {

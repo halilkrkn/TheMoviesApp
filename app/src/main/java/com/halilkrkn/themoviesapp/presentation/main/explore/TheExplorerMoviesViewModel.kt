@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.halilkrkn.themoviesapp.core.Constants.AN_UNEXPECTED_ERROR_OCCURRED
 import com.halilkrkn.themoviesapp.core.Resource
 import com.halilkrkn.themoviesapp.data.mappers.toTheMovies
 import com.halilkrkn.themoviesapp.domain.usecase.TheMoviesUseCases
@@ -12,6 +13,7 @@ import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerPop
 import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerTopRatedMoviesState
 import com.halilkrkn.themoviesapp.presentation.main.explore.state.TheExplorerUpcomingMoviesState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,10 +74,10 @@ class TheExplorerMoviesViewModel @Inject constructor(
         _isRefreshing.value = false
     }
 
-    private fun getTheExploreNowPlayingMovies() {
+    private fun getTheExploreNowPlayingMovies(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         _isLoading.value = true
         movieJob?.cancel()
-        movieJob = viewModelScope.launch(Dispatchers.IO) {
+        movieJob = viewModelScope.launch(dispatcher) {
             theMoviesUseCases.getExplorerMoviesUseCase.getNowPlayingMovies().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
@@ -90,7 +92,7 @@ class TheExplorerMoviesViewModel @Inject constructor(
                     is Resource.Error -> {
                         _stateNowPlaying.value = TheExplorerNowPlayingMoviesState(
                             isLoading = false,
-                            error = result.message ?: "An unexpected error occurred"
+                            error = result.message ?: AN_UNEXPECTED_ERROR_OCCURRED
                         )
                     }
 
@@ -106,10 +108,10 @@ class TheExplorerMoviesViewModel @Inject constructor(
     }
 
 
-    private fun getTheExplorePopularMovies() {
+    private fun getTheExplorePopularMovies(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         _isLoading.value = true
         movieJob?.cancel()
-        movieJob = viewModelScope.launch(Dispatchers.IO) {
+        movieJob = viewModelScope.launch(dispatcher) {
             theMoviesUseCases.getExplorerMoviesUseCase.getPopularMovies().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
@@ -124,7 +126,7 @@ class TheExplorerMoviesViewModel @Inject constructor(
                     is Resource.Error -> {
                         _statePopular.value = TheExplorerPopularMoviesState(
                             isLoading = false,
-                            error = result.message ?: "An unexpected error occurred"
+                            error = result.message ?: AN_UNEXPECTED_ERROR_OCCURRED
                         )
                     }
 
@@ -140,10 +142,10 @@ class TheExplorerMoviesViewModel @Inject constructor(
     }
 
 
-    private fun getExploreTopRatedTheMovies() {
+    private fun getExploreTopRatedTheMovies(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         _isLoading.value = true
         movieJob?.cancel()
-        movieJob = viewModelScope.launch(Dispatchers.IO) {
+        movieJob = viewModelScope.launch(dispatcher) {
             theMoviesUseCases.getExplorerMoviesUseCase.getTopRatedMovies().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
@@ -152,13 +154,13 @@ class TheExplorerMoviesViewModel @Inject constructor(
                             theExplorerMovies = result.data?.map {
                                 it.toTheMovies()
                             } ?: emptyList(),
-                            )
+                        )
                     }
 
                     is Resource.Error -> {
                         _stateTopRated.value = TheExplorerTopRatedMoviesState(
                             isLoading = false,
-                            error = result.message ?: "An unexpected error occurred"
+                            error = result.message ?: AN_UNEXPECTED_ERROR_OCCURRED
                         )
                     }
 
@@ -174,10 +176,10 @@ class TheExplorerMoviesViewModel @Inject constructor(
     }
 
 
-    private fun getExploreUpcomingTheMovies() {
+    private fun getExploreUpcomingTheMovies(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         _isLoading.value = true
         movieJob?.cancel()
-        movieJob = viewModelScope.launch(Dispatchers.IO) {
+        movieJob = viewModelScope.launch(dispatcher) {
             theMoviesUseCases.getExplorerMoviesUseCase.getUpcomingMovies().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
@@ -192,7 +194,7 @@ class TheExplorerMoviesViewModel @Inject constructor(
                     is Resource.Error -> {
                         _stateUpComing.value = TheExplorerUpcomingMoviesState(
                             isLoading = false,
-                            error = result.message ?: "An unexpected error occurred"
+                            error = result.message ?: AN_UNEXPECTED_ERROR_OCCURRED
                         )
                     }
 
